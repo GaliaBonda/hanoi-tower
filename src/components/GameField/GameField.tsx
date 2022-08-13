@@ -1,6 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import GameInput from '../GameInput/GameInput';
+import Stack from '../Stack/Stack';
 
 const StyledDiv = styled.div`
   height: 70vh;
@@ -11,18 +12,33 @@ const StyledDiv = styled.div`
   padding: 2em;
   border-radius: 10px;
 `;
+const StacksWrapper = styled.div`
+  display: flex; 
+  justify-content: space-around;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+  padding: 2em;
+`;
 
 
 
 
 function GameField() {
-    return (
-        <>
-            <StyledDiv >
-                <GameInput />
-            </StyledDiv>
-        </>
+  return (
+    <>
+      <StyledDiv >
+        <GameInput />
+        <StacksWrapper>
+          <Stack />
+          <Stack />
+          <Stack />
+        </StacksWrapper>
 
-    );
+
+      </StyledDiv>
+    </>
+
+  );
 }
 export default GameField;

@@ -1,16 +1,18 @@
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components/macro';
 import GameField from './components/GameField/GameField';
-import Stack from './components/Stack/Stack';
 
 const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     margin: 0;
+    font-family: 'Comfortaa', cursive;
+    font-size: 1rem;
   }
 
-  * {
+  *, *::before, *::after {
     box-sizing: border-box;
+    font-family: inherit;
   }
 `
 
