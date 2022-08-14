@@ -1,16 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import Disk from '../Disc/Disk';
 import GameInput from '../GameInput/GameInput';
 import Stack from '../Stack/Stack';
 
-
-
-
-
-
-function GameField() {
-  const StyledDiv = styled.div`
+const StyledDiv = styled.div`
   height: 70vh;
   width: 80%;
   border: 1px solid rgb(0 0 0 / 8%);;
@@ -19,7 +13,7 @@ function GameField() {
   padding: 2em;
   border-radius: 10px;
 `;
-  const StacksWrapper = styled.div`
+const StacksWrapper = styled.div`
   display: flex; 
   justify-content: space-around;
   align-items: flex-end;
@@ -28,14 +22,37 @@ function GameField() {
   padding: 2em;
 `;
 
+function GameField() {
+  const [discksNumber, setDiscsNum] = useState(3);
+  const startStack = [
+    {
+      width: discksNumber - 0,
+      color: `hsla(${Math.random() * 360}, 100%, 50%)`,
+      height: `calc(40% / 3)`,
+      id: 0,
+    },
+    {
+      width: discksNumber - 1,
+      color: `hsla(${Math.random() * 360}, 100%, 50%)`,
+      height: `calc(40% / 3)`,
+      id: 1,
+    },
+    {
+      width: discksNumber - 2,
+      color: `hsla(${Math.random() * 360}, 100%, 50%)`,
+      height: `calc(40% / 3)`,
+      id: 2,
+    }
+  ];
+
   return (
     <>
       <StyledDiv >
         <GameInput />
         <StacksWrapper>
-          <Stack />
-          <Stack />
-          <Stack />
+          <Stack stack={startStack} />
+          <Stack stack={[]} />
+          <Stack stack={[]} />
         </StacksWrapper>
 
 
