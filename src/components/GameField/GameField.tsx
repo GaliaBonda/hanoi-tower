@@ -1,9 +1,16 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import Disk from '../Disc/Disk';
 import GameInput from '../GameInput/GameInput';
 import Stack from '../Stack/Stack';
 
-const StyledDiv = styled.div`
+
+
+
+
+
+function GameField() {
+  const StyledDiv = styled.div`
   height: 70vh;
   width: 80%;
   border: 1px solid rgb(0 0 0 / 8%);;
@@ -12,7 +19,7 @@ const StyledDiv = styled.div`
   padding: 2em;
   border-radius: 10px;
 `;
-const StacksWrapper = styled.div`
+  const StacksWrapper = styled.div`
   display: flex; 
   justify-content: space-around;
   align-items: flex-end;
@@ -21,10 +28,6 @@ const StacksWrapper = styled.div`
   padding: 2em;
 `;
 
-
-
-
-function GameField() {
   return (
     <>
       <StyledDiv >
