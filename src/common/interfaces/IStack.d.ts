@@ -1,5 +1,5 @@
-import IDisk from './IDisk';
+import IDisc from './IDisc';
 
 export default interface IStack {
-    stack: IDisk[] | [];
+    stack: IDisc[] | [];
 }

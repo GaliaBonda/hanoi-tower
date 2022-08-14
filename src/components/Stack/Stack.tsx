@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components/macro';
 import IStack from '../../common/interfaces/IStack';
 import Disk from '../Disc/Disk';
@@ -42,16 +42,16 @@ const DiscsWrapper = styled.div`
         left: 0;`;
 
 
-function Stack({ stack }: IStack) {
-
+function Stack({ stack, moveDisc }: IStack & { moveDisc: (target: EventTarget) => void }) {
 
     return (
         <WrapperDiv>
             <StyledDiv />
             <DiscsWrapper>
-                {stack.map((item) => {
+                {stack.map((item, index) => {
                     return (
-                        <Disk width={item.width} height={item.height} key={item.id} color={item.color} id={item.id} />
+                        <Disk width={item.width} key={item.id} color={item.color} id={item.id}
+                            height={item.height} moveDisc={moveDisc} />
                     );
                 })}
             </DiscsWrapper>

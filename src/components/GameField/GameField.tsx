@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components/macro';
-import Disk from '../Disc/Disk';
 import GameInput from '../GameInput/GameInput';
 import Stack from '../Stack/Stack';
 
@@ -23,36 +22,73 @@ const StacksWrapper = styled.div`
 `;
 
 function GameField() {
-  const [discksNumber, setDiscsNum] = useState(3);
+  const [discsNumber, setDiscsNum] = useState(3);
+
   const startStack = [
     {
-      width: discksNumber - 0,
+      width: discsNumber - 0,
       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
-      height: `calc(40% / 3)`,
+      height: `calc(40% / ${discsNumber})`,
       id: 0,
     },
     {
-      width: discksNumber - 1,
+      width: discsNumber - 1,
       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
-      height: `calc(40% / 3)`,
+      height: `calc(40% / ${discsNumber})`,
       id: 1,
     },
     {
-      width: discksNumber - 2,
+      width: discsNumber - 2,
       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
-      height: `calc(40% / 3)`,
+      height: `calc(40% / ${discsNumber})`,
       id: 2,
     }
   ];
 
+  const stackRef = useRef<HTMLDivElement>(null);
+  // const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
+
+  const handleMouseDown = (event: MouseEvent) => {
+    // console.log(event.target);
+    if (stackRef.current) {
+      const x = stackRef.current.offsetLeft;
+      const x1 = stackRef.current.offsetWidth;
+
+    }
+
+  };
+  const handleMouseUp = (event: MouseEvent) => {
+    // console.log(event.target);
+
+
+  };
+
+  // useEffect(() => {
+
+  //   const handleWindowMouseMove = (event: globalThis.MouseEvent) => {
+  //     setGlobalCoords({
+  //       x: event.screenX,
+  //       y: event.screenY,
+  //     });
+  //   };
+  //   window.addEventListener('mousemove', handleWindowMouseMove);
+
+  //   return () => {
+  //     window.removeEventListener('mousemove', handleWindowMouseMove);
+  //   };
+  // }, []);
+  const moveDisc = (target: EventTarget) => {
+    console.log(target);
+
+  };
   return (
     <>
       <StyledDiv >
         <GameInput />
-        <StacksWrapper>
-          <Stack stack={startStack} />
-          <Stack stack={[]} />
-          <Stack stack={[]} />
+        <StacksWrapper ref={stackRef} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
+          <Stack stack={startStack} moveDisc={moveDisc} />
+          <Stack stack={[]} moveDisc={moveDisc} />
+          <Stack stack={[]} moveDisc={moveDisc} />
         </StacksWrapper>
 
 
