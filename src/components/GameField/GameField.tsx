@@ -143,12 +143,32 @@ function GameField() {
     setDiscsNum(Number(value));
   }
 
+  const formStacks = () => {
+    const stack1 = new Stack([]);
+    const stack2 = new Stack([]);
+    const stack3 = new Stack([]);
+    for (let i = 0; i < discsNumber; i++) {
+      stack1.push({
+        width: discsNumber - i,
+        color: `hsla(${Math.random() * 360}, 100%, 50%)`,
+        height: `calc(60% / ${discsNumber})`,
+        id: i,
+        stackId: 1,
+      });
+    }
+    setStacks({
+      stack1,
+      stack2,
+      stack3,
+    });
+  }
+
   return (
     <>
       <StyledDiv >
         <ControlDiv>
           <GameInput value={discsNumber} handleChange={handleChange} />
-          <StyledButton>Start</StyledButton>
+          <StyledButton onClick={formStacks}>Start</StyledButton>
         </ControlDiv>
         <StacksWrapper ref={rodsWrapperRef} onClick={handleMouseUp}>
           <Rod stack={stacks.stack1} moveDisc={moveDisc} id={1} />
