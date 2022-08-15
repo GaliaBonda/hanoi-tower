@@ -28,43 +28,64 @@ function GameField() {
     {
       width: discsNumber - 0,
       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
-      height: `calc(40% / ${discsNumber})`,
+      height: `calc(25% / ${discsNumber})`,
       id: 0,
+      stackId: 1,
     },
     {
       width: discsNumber - 1,
       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
-      height: `calc(40% / ${discsNumber})`,
+      height: `calc(25% / ${discsNumber})`,
       id: 1,
+      stackId: 1,
     },
     {
       width: discsNumber - 2,
       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
-      height: `calc(40% / ${discsNumber})`,
+      height: `calc(25% / ${discsNumber})`,
       id: 2,
+      stackId: 1,
     }
   ];
 
+  const [stack1, setStack1] = useState(startStack);
+  const [stack2, setStack2] = useState([]);
+  const [stack3, setStack3] = useState([]);
+
+  const [targetDisc, setTargetDisc] = useState<EventTarget | null>(null);
+
   const stackRef = useRef<HTMLDivElement>(null);
-  // const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
 
   const handleMouseDown = (event: MouseEvent) => {
-    // console.log(event.target);
+  };
+
+  const handleMouseUp = (event: MouseEvent) => {
+    if (!targetDisc) {
+      console.log('moving on wrong');
+    } else {
+      console.log('all good');
+    }
+
+    //Get sizes of stacks: 
+    // 1) [offsetLeft, offsetLeft + offsetWidth / 3];
+    // 2) (offsetLeft + offsetWidth / 3, offsetLeft + 2 * offsetWidth / 3];
+    // 3) (offsetLeft + 2 * offsetWidth / 3, offsetWidth];
+
     if (stackRef.current) {
       const x = stackRef.current.offsetLeft;
       const x1 = stackRef.current.offsetWidth;
 
     }
 
-  };
-  const handleMouseUp = (event: MouseEvent) => {
-    // console.log(event.target);
-
-
+    //Compare with mouse position event.screenX
+    //if mouse position <= offsetLeft + offsetWidth / 3 => Target stack pop; stack #1 push
+    //if mouse position > offsetLeft + offsetWidth / 3 => Target stack pop; stack #2 push 
+    //if mouse position > offsetLeft + 2 * offsetWidth / 3 => Target stack pop; stack #3 push 
+    
+    setTargetDisc(null);
   };
 
   // useEffect(() => {
-
   //   const handleWindowMouseMove = (event: globalThis.MouseEvent) => {
   //     setGlobalCoords({
   //       x: event.screenX,
@@ -77,21 +98,21 @@ function GameField() {
   //     window.removeEventListener('mousemove', handleWindowMouseMove);
   //   };
   // }, []);
-  const moveDisc = (target: EventTarget) => {
-    console.log(target);
 
+  const moveDisc = (target: EventTarget) => {
+    setTargetDisc(target);
+    // console.log(target);
   };
+
   return (
     <>
       <StyledDiv >
         <GameInput />
         <StacksWrapper ref={stackRef} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
-          <Stack stack={startStack} moveDisc={moveDisc} />
-          <Stack stack={[]} moveDisc={moveDisc} />
-          <Stack stack={[]} moveDisc={moveDisc} />
+          <Stack stack={stack1} moveDisc={moveDisc} id={1} />
+          <Stack stack={stack2} moveDisc={moveDisc} id={2} />
+          <Stack stack={stack3} moveDisc={moveDisc} id={3} />
         </StacksWrapper>
-
-
       </StyledDiv>
     </>
 
