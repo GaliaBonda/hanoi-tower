@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import GameInput from '../GameInput/GameInput';
 import Rod from '../Rod/Rod';
 import Stack from '../../common/utils/Stack';
+import Popup from '../Popup/Popup';
 
 const StyledDiv = styled.div`
   height: 70vh;
@@ -24,6 +25,11 @@ const StacksWrapper = styled.div`
 
 function GameField() {
   const [discsNumber, setDiscsNum] = useState(3);
+  const [popup, setPopup] = useState({
+    isShown: false,
+    title: '',
+    text: '',
+ });
 
   const startStack = new Stack([
     {
@@ -54,17 +60,11 @@ function GameField() {
     stack2: new Stack([]),
     stack3: new Stack([]),
   });
-  // const [stack1, setStack1] = useState(startStack);
-  // const [stack2, setStack2] = useState(new Stack([]));
-  // const [stack3, setStack3] = useState(new Stack([]));
 
   const [targetDisc, setTargetDisc] = useState<EventTarget | null>(null);
   const [targetStack, setTargetStack] = useState(0);
 
   const rodsWrapperRef = useRef<HTMLDivElement>(null);
-
-  // const handleMouseDown = (event: MouseEvent) => {
-  // };
 
   const handleMouseUp = (event: MouseEvent) => {
     if (!targetDisc) {
@@ -81,12 +81,12 @@ function GameField() {
     const leftPoint = rodsWrapperRef.current.offsetLeft;
     const wrapperWidth = rodsWrapperRef.current.offsetWidth;
     const mousePosition = event.screenX;
-    // console.log("leftPoint: " + leftPoint, "wrapperWidth: " + wrapperWidth, "mousePosition: " + mousePosition);
 
     //Compare with mouse position event.screenX
     //if mouse position <= offsetLeft + offsetWidth / 3 => Target stack pop; stack #1 push
     //if mouse position > offsetLeft + offsetWidth / 3 => Target stack pop; stack #2 push 
     //if mouse position > offsetLeft + 2 * offsetWidth / 3 => Target stack pop; stack #3 push 
+
     const moveTarget = stacks["stack" + targetStack].peek();
     let finishStack = stacks["stack" + targetStack];
     if (mousePosition <= leftPoint + wrapperWidth / 3) {
@@ -98,29 +98,17 @@ function GameField() {
     }
     const topElement = finishStack.peek();
     if (finishStack.size() > 0 && moveTarget.width > topElement.width) {
-      console.log('wrong sizing');
+      setPopup({
+        isShown: true,
+        title: 'Too big!',
+        text: 'You supposed to place smaller disc on bigger disc. And you thought how to build a tower?',
+      });
       return;
     }
-    // console.log(topElement?.width);
-    // console.log(moveTarget?.width);
     const moveTargetDisc = stacks["stack" + targetStack].pop();
     if (moveTargetDisc) finishStack.push(moveTargetDisc);
     setTargetDisc(null);
   };
-
-  // useEffect(() => {
-  //   const handleWindowMouseMove = (event: globalThis.MouseEvent) => {
-  //     setGlobalCoords({
-  //       x: event.screenX,
-  //       y: event.screenY,
-  //     });
-  //   };
-  //   window.addEventListener('mousemove', handleWindowMouseMove);
-
-  //   return () => {
-  //     window.removeEventListener('mousemove', handleWindowMouseMove);
-  //   };
-  // }, []);
 
   const moveDisc = (target: EventTarget, stackId: number) => {
     setTargetDisc(target);
@@ -140,6 +128,9 @@ function GameField() {
           <Rod stack={stacks.stack3} moveDisc={moveDisc} id={3} />
         </StacksWrapper>
       </StyledDiv>
+      {popup.isShown && <Popup title={popup.title} text={popup.text} closePopup={() => setPopup({isShown: false,
+    title: '',
+    text: '',})}/>}
     </>
 
   );

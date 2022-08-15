@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import IStack from '../../common/interfaces/IStack';
 import Disk from '../Disc/Disk';
+import Popup from '../Popup/Popup';
 
 const StyledDiv = styled.div`
         height: 50%;
@@ -55,10 +56,14 @@ const DiscsWrapper = styled.div`
 type Props = IStack & { moveDisc: (target: EventTarget, stackId: number) => void };
 
 function Rod({ stack, id, moveDisc }: Props) {
+const [popupShown, setPopupShown] = useState(false);
+
     const wrongDiskAlert = () => {
-        console.log('wrong disk');
+        setPopupShown(true);
     }
+
     return (
+        <>
         <WrapperDiv>
             <StyledDiv />
             <DiscsWrapper>
@@ -70,6 +75,10 @@ function Rod({ stack, id, moveDisc }: Props) {
                 })}
             </DiscsWrapper>
         </WrapperDiv>
+        {popupShown && 
+        <Popup title={'Missed!'} text={'Only the top disc can be moved. It looks like you\'re trying to ruin the tower...'}
+        closePopup={() => setPopupShown(false)} />}
+        </>
     );
 }
 export default Rod;
