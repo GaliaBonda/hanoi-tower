@@ -55,16 +55,14 @@ function GameField() {
 
   const [targetDisc, setTargetDisc] = useState<EventTarget | null>(null);
 
-  const stackRef = useRef<HTMLDivElement>(null);
+  const rodsWrapperRef = useRef<HTMLDivElement>(null);
 
   const handleMouseDown = (event: MouseEvent) => {
   };
 
   const handleMouseUp = (event: MouseEvent) => {
-    if (!targetDisc) {
-      console.log('moving on wrong');
-    } else {
-      console.log('all good');
+    if (!targetDisc || !rodsWrapperRef.current) {
+      return;
     }
 
     //Get sizes of stacks: 
@@ -72,16 +70,23 @@ function GameField() {
     // 2) (offsetLeft + offsetWidth / 3, offsetLeft + 2 * offsetWidth / 3];
     // 3) (offsetLeft + 2 * offsetWidth / 3, offsetWidth];
 
-    if (stackRef.current) {
-      const x = stackRef.current.offsetLeft;
-      const x1 = stackRef.current.offsetWidth;
-
-    }
+    const leftPoint = rodsWrapperRef.current.offsetLeft;
+    const wrapperWidth = rodsWrapperRef.current.offsetWidth;
+    const mousePosition = event.screenX;
+    console.log("leftPoint: " + leftPoint, "wrapperWidth: " + wrapperWidth, "mousePosition: " + mousePosition);
 
     //Compare with mouse position event.screenX
     //if mouse position <= offsetLeft + offsetWidth / 3 => Target stack pop; stack #1 push
     //if mouse position > offsetLeft + offsetWidth / 3 => Target stack pop; stack #2 push 
     //if mouse position > offsetLeft + 2 * offsetWidth / 3 => Target stack pop; stack #3 push 
+    if (mousePosition <= leftPoint + wrapperWidth / 3) {
+      console.log('stack # 1');
+    } else if (mousePosition > leftPoint + wrapperWidth / 3 && mousePosition <= leftPoint + 2 * wrapperWidth / 3) {
+      console.log('stack # 2');
+    } else if (mousePosition > leftPoint + 2 * wrapperWidth / 3) {
+      console.log('stack # 3');
+    }
+
 
     setTargetDisc(null);
   };
@@ -109,7 +114,7 @@ function GameField() {
     <>
       <StyledDiv >
         <GameInput />
-        <StacksWrapper ref={stackRef} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
+        <StacksWrapper ref={rodsWrapperRef} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
           <Rod stack={stack1} moveDisc={moveDisc} id={1} />
           <Rod stack={stack2} moveDisc={moveDisc} id={2} />
           <Rod stack={stack3} moveDisc={moveDisc} id={3} />

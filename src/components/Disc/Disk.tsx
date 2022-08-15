@@ -18,6 +18,6 @@ export default function Disk({ width, height, color, moveDisc }: Props) {
             width: `calc(60% / ${width})`,
             backgroundColor: color,
             height: height,
-        }} onMouseDown={(event: MouseEvent) => moveDisc(event.target)} />
+        }} onMouseDown={(event: MouseEvent) => {event.preventDefault(); moveDisc(event.target)}} />
     );
 }
