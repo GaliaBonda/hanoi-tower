@@ -17,9 +17,11 @@ export default class Stack {
     peek() {
         return this.items[this.items.length - 1];
     }
+
     getArray() {
         return this.items;
     }
+    
     size() {
         return this.items.length;
     }

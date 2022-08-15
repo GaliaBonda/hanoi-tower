@@ -51,7 +51,7 @@ function GameField() {
     }
   ]);
 
-  const [stacks, setStacks] = useState<{[stack: string]: Stack}>({
+  const [stacks, setStacks] = useState<{ [stack: string]: Stack }>({
     stack1: startStack,
     stack2: new Stack([]),
     stack3: new Stack([]),
@@ -69,10 +69,12 @@ function GameField() {
   // };
 
   const handleMouseUp = (event: MouseEvent) => {
-    if (!targetDisc || !rodsWrapperRef.current || stacks["stack" + targetStack].size() <= 0 ) {
+    if (!targetDisc) {
       return;
     }
 
+    if (!rodsWrapperRef.current) return;
+    if (stacks["stack" + targetStack].size() <= 0) return;
     //Get sizes of stacks: 
     // 1) [offsetLeft, offsetLeft + offsetWidth / 3];
     // 2) (offsetLeft + offsetWidth / 3, offsetLeft + 2 * offsetWidth / 3];
@@ -81,26 +83,30 @@ function GameField() {
     const leftPoint = rodsWrapperRef.current.offsetLeft;
     const wrapperWidth = rodsWrapperRef.current.offsetWidth;
     const mousePosition = event.screenX;
-    console.log("leftPoint: " + leftPoint, "wrapperWidth: " + wrapperWidth, "mousePosition: " + mousePosition);
+    // console.log("leftPoint: " + leftPoint, "wrapperWidth: " + wrapperWidth, "mousePosition: " + mousePosition);
 
     //Compare with mouse position event.screenX
     //if mouse position <= offsetLeft + offsetWidth / 3 => Target stack pop; stack #1 push
     //if mouse position > offsetLeft + offsetWidth / 3 => Target stack pop; stack #2 push 
     //if mouse position > offsetLeft + 2 * offsetWidth / 3 => Target stack pop; stack #3 push 
-    const moveTarget = stacks["stack" + targetStack].pop();
-
+    const moveTarget = stacks["stack" + targetStack].peek();
+    let finishStack = stacks["stack" + targetStack];
     if (mousePosition <= leftPoint + wrapperWidth / 3) {
-      console.log('stack # 1');
-      stacks.stack1.push(moveTarget);
+      finishStack = stacks.stack1
     } else if (mousePosition > leftPoint + wrapperWidth / 3 && mousePosition <= leftPoint + 2 * wrapperWidth / 3) {
-      console.log('stack # 2');
-      stacks.stack2.push(moveTarget);
+      finishStack = stacks.stack2;
     } else if (mousePosition > leftPoint + 2 * wrapperWidth / 3) {
-      console.log('stack # 3');
-      stacks.stack3.push(moveTarget);
+      finishStack = stacks.stack3;
     }
-
-
+    const topElement = finishStack.peek();
+    if (finishStack.size() > 0 && moveTarget.width > topElement.width) {
+      console.log('wrong sizing');
+      return;
+    }
+    // console.log(topElement?.width);
+    // console.log(moveTarget?.width);
+    
+    finishStack.push(stacks["stack" + targetStack].pop());
     setTargetDisc(null);
   };
 

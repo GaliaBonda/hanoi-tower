@@ -57,7 +57,7 @@ type Props = IStack & { moveDisc: (target: EventTarget, stackId: number) => void
 
 function Rod({ stack, id, moveDisc }: Props) {
     const wrongDiskAlert = () => {
-        // console.log('wrong disk');
+        console.log('wrong disk');
     }
     return (
         <WrapperDiv>
@@ -66,7 +66,7 @@ function Rod({ stack, id, moveDisc }: Props) {
                 {stack.getArray().map((item, index) => {
                     return (
                         <Disk width={item.width} key={item.id} color={item.color} id={item.id}
-                            height={item.height} stackId={id} moveDisc={moveDisc} />
+                            height={item.height} stackId={id} moveDisc={index === stack.getArray().length - 1 ? moveDisc : wrongDiskAlert} />
                     );
                 })}
             </DiscsWrapper>
