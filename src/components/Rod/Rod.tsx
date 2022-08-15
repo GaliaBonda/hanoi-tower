@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import IDisc from '../../common/interfaces/IDisc';
 import IStack from '../../common/interfaces/IStack';
 import Disk from '../Disc/Disk';
 
@@ -55,7 +56,7 @@ const DiscsWrapper = styled.div`
 
 type Props = IStack & { moveDisc: (target: EventTarget) => void };
 
-function Stack({ stack, id, moveDisc }: Props) {
+function Rod({ stack, id, moveDisc }: Props) {
     const wrongDiskAlert = () => {
         // console.log('wrong disk');
     }
@@ -63,7 +64,7 @@ function Stack({ stack, id, moveDisc }: Props) {
         <WrapperDiv>
             <StyledDiv />
             <DiscsWrapper>
-                {stack.map((item, index) => {
+                {stack.getArray().map((item, index) => {
                     return (
                         <Disk width={item.width} key={item.id} color={item.color} id={item.id}
                             height={item.height} stackId={id} moveDisc={index === 0 ? moveDisc : wrongDiskAlert} />
@@ -73,4 +74,4 @@ function Stack({ stack, id, moveDisc }: Props) {
         </WrapperDiv>
     );
 }
-export default Stack;
+export default Rod;

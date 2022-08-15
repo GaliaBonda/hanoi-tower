@@ -1,7 +1,8 @@
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components/macro';
 import GameInput from '../GameInput/GameInput';
-import Stack from '../Stack/Stack';
+import Rod from '../Rod/Rod';
+import Stack from '../../common/utils/Stack';
 
 const StyledDiv = styled.div`
   height: 70vh;
@@ -24,7 +25,7 @@ const StacksWrapper = styled.div`
 function GameField() {
   const [discsNumber, setDiscsNum] = useState(3);
 
-  const startStack = [
+  const startStack = new Stack([
     {
       width: discsNumber - 0,
       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
@@ -46,11 +47,11 @@ function GameField() {
       id: 2,
       stackId: 1,
     }
-  ];
+  ]);
 
   const [stack1, setStack1] = useState(startStack);
-  const [stack2, setStack2] = useState([]);
-  const [stack3, setStack3] = useState([]);
+  const [stack2, setStack2] = useState(new Stack([]));
+  const [stack3, setStack3] = useState(new Stack([]));
 
   const [targetDisc, setTargetDisc] = useState<EventTarget | null>(null);
 
@@ -81,7 +82,7 @@ function GameField() {
     //if mouse position <= offsetLeft + offsetWidth / 3 => Target stack pop; stack #1 push
     //if mouse position > offsetLeft + offsetWidth / 3 => Target stack pop; stack #2 push 
     //if mouse position > offsetLeft + 2 * offsetWidth / 3 => Target stack pop; stack #3 push 
-    
+
     setTargetDisc(null);
   };
 
@@ -109,9 +110,9 @@ function GameField() {
       <StyledDiv >
         <GameInput />
         <StacksWrapper ref={stackRef} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
-          <Stack stack={stack1} moveDisc={moveDisc} id={1} />
-          <Stack stack={stack2} moveDisc={moveDisc} id={2} />
-          <Stack stack={stack3} moveDisc={moveDisc} id={3} />
+          <Rod stack={stack1} moveDisc={moveDisc} id={1} />
+          <Rod stack={stack2} moveDisc={moveDisc} id={2} />
+          <Rod stack={stack3} moveDisc={moveDisc} id={3} />
         </StacksWrapper>
       </StyledDiv>
     </>
