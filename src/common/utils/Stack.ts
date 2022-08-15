@@ -17,11 +17,10 @@ export default class Stack {
     peek() {
         return this.items[this.items.length - 1];
     }
-
-    clear(){
-        this.items = [];
-    }
     getArray() {
         return this.items;
+    }
+    size() {
+        return this.items.length;
     }
 }

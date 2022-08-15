@@ -44,7 +44,7 @@ const WrapperDiv = styled.div`
         position: relative;`;
 const DiscsWrapper = styled.div`
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         justify-content: center;
         align-items: center;
         position: absolute;
@@ -53,7 +53,7 @@ const DiscsWrapper = styled.div`
         right: 0;
         left: 0;`;
 
-type Props = IStack & { moveDisc: (target: EventTarget) => void };
+type Props = IStack & { moveDisc: (target: EventTarget, stackId: number) => void };
 
 function Rod({ stack, id, moveDisc }: Props) {
     const wrongDiskAlert = () => {
@@ -66,7 +66,7 @@ function Rod({ stack, id, moveDisc }: Props) {
                 {stack.getArray().map((item, index) => {
                     return (
                         <Disk width={item.width} key={item.id} color={item.color} id={item.id}
-                            height={item.height} stackId={id} moveDisc={index === 0 ? moveDisc : wrongDiskAlert} />
+                            height={item.height} stackId={id} moveDisc={moveDisc} />
                     );
                 })}
             </DiscsWrapper>

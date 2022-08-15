@@ -9,15 +9,15 @@ const StyledDiv = styled.div`
     calc(40% / 3)
 `;
 
-type Props = IDisc & { moveDisc: (target: EventTarget) => void };
+type Props = IDisc & { moveDisc: (target: EventTarget, stackId: number) => void };
 
-export default function Disk({ width, height, color, moveDisc }: Props) {
+export default function Disk({ width, height, color, stackId, moveDisc }: Props) {
 
     return (
         <StyledDiv style={{
-            width: `calc(60% / ${width})`,
+            width: `calc(20% * ${width})`,
             backgroundColor: color,
             height: height,
-        }} onMouseDown={(event: MouseEvent) => {event.preventDefault(); moveDisc(event.target)}} />
+        }} onMouseDown={(event: MouseEvent) => {event.preventDefault(); moveDisc(event.target, stackId)}} />
     );
 }

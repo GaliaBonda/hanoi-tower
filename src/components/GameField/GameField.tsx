@@ -3,6 +3,8 @@ import styled from 'styled-components/macro';
 import GameInput from '../GameInput/GameInput';
 import Rod from '../Rod/Rod';
 import Stack from '../../common/utils/Stack';
+import IStack from '../../common/interfaces/IStack';
+import { string } from 'prop-types';
 
 const StyledDiv = styled.div`
   height: 70vh;
@@ -49,19 +51,25 @@ function GameField() {
     }
   ]);
 
-  const [stack1, setStack1] = useState(startStack);
-  const [stack2, setStack2] = useState(new Stack([]));
-  const [stack3, setStack3] = useState(new Stack([]));
+  const [stacks, setStacks] = useState<{[stack: string]: Stack}>({
+    stack1: startStack,
+    stack2: new Stack([]),
+    stack3: new Stack([]),
+  });
+  // const [stack1, setStack1] = useState(startStack);
+  // const [stack2, setStack2] = useState(new Stack([]));
+  // const [stack3, setStack3] = useState(new Stack([]));
 
   const [targetDisc, setTargetDisc] = useState<EventTarget | null>(null);
+  const [targetStack, setTargetStack] = useState(0);
 
   const rodsWrapperRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseDown = (event: MouseEvent) => {
-  };
+  // const handleMouseDown = (event: MouseEvent) => {
+  // };
 
   const handleMouseUp = (event: MouseEvent) => {
-    if (!targetDisc || !rodsWrapperRef.current) {
+    if (!targetDisc || !rodsWrapperRef.current || stacks["stack" + targetStack].size() <= 0 ) {
       return;
     }
 
@@ -79,12 +87,17 @@ function GameField() {
     //if mouse position <= offsetLeft + offsetWidth / 3 => Target stack pop; stack #1 push
     //if mouse position > offsetLeft + offsetWidth / 3 => Target stack pop; stack #2 push 
     //if mouse position > offsetLeft + 2 * offsetWidth / 3 => Target stack pop; stack #3 push 
+    const moveTarget = stacks["stack" + targetStack].pop();
+
     if (mousePosition <= leftPoint + wrapperWidth / 3) {
       console.log('stack # 1');
+      stacks.stack1.push(moveTarget);
     } else if (mousePosition > leftPoint + wrapperWidth / 3 && mousePosition <= leftPoint + 2 * wrapperWidth / 3) {
       console.log('stack # 2');
+      stacks.stack2.push(moveTarget);
     } else if (mousePosition > leftPoint + 2 * wrapperWidth / 3) {
       console.log('stack # 3');
+      stacks.stack3.push(moveTarget);
     }
 
 
@@ -105,19 +118,22 @@ function GameField() {
   //   };
   // }, []);
 
-  const moveDisc = (target: EventTarget) => {
+  const moveDisc = (target: EventTarget, stackId: number) => {
     setTargetDisc(target);
-    // console.log(target);
+    setTargetStack(stackId);
+    // console.log(target, stackId);
+    // const targetStack = "stack" + stackId;
+    // console.log(stacks[targetStack]);
   };
 
   return (
     <>
       <StyledDiv >
         <GameInput />
-        <StacksWrapper ref={rodsWrapperRef} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
-          <Rod stack={stack1} moveDisc={moveDisc} id={1} />
-          <Rod stack={stack2} moveDisc={moveDisc} id={2} />
-          <Rod stack={stack3} moveDisc={moveDisc} id={3} />
+        <StacksWrapper ref={rodsWrapperRef} onMouseUp={handleMouseUp}>
+          <Rod stack={stacks.stack1} moveDisc={moveDisc} id={1} />
+          <Rod stack={stacks.stack2} moveDisc={moveDisc} id={2} />
+          <Rod stack={stacks.stack3} moveDisc={moveDisc} id={3} />
         </StacksWrapper>
       </StyledDiv>
     </>
