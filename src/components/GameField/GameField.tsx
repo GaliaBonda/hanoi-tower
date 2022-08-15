@@ -1,10 +1,8 @@
-import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import React, { MouseEvent, useRef, useState } from 'react';
 import styled from 'styled-components/macro';
 import GameInput from '../GameInput/GameInput';
 import Rod from '../Rod/Rod';
 import Stack from '../../common/utils/Stack';
-import IStack from '../../common/interfaces/IStack';
-import { string } from 'prop-types';
 
 const StyledDiv = styled.div`
   height: 70vh;
@@ -74,7 +72,7 @@ function GameField() {
     }
 
     if (!rodsWrapperRef.current) return;
-    if (stacks["stack" + targetStack].size() <= 0) return;
+    if (stacks["stack" + targetStack].size() === 0) return;
     //Get sizes of stacks: 
     // 1) [offsetLeft, offsetLeft + offsetWidth / 3];
     // 2) (offsetLeft + offsetWidth / 3, offsetLeft + 2 * offsetWidth / 3];
@@ -105,8 +103,8 @@ function GameField() {
     }
     // console.log(topElement?.width);
     // console.log(moveTarget?.width);
-    
-    finishStack.push(stacks["stack" + targetStack].pop());
+    const moveTargetDisc = stacks["stack" + targetStack].pop();
+    if (moveTargetDisc) finishStack.push(moveTargetDisc);
     setTargetDisc(null);
   };
 

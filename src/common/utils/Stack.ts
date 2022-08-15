@@ -1,17 +1,19 @@
+import IDisc from "../interfaces/IDisc";
+
 export default class Stack {
-    items: any[];
-    constructor(stack: any[]) {
+    items: IDisc[];
+    constructor(stack: IDisc[]) {
         this.items = stack;
     }
 
-    push(element: any) {
+    push(element: IDisc) {
         this.items.push(element);
     }
 
     pop() {
         if(this.items.length > 0) {
             return this.items.pop();
-        }
+        } 
     }
 
     peek() {
@@ -21,7 +23,7 @@ export default class Stack {
     getArray() {
         return this.items;
     }
-    
+
     size() {
         return this.items.length;
     }

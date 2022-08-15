@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import IDisc from '../../common/interfaces/IDisc';
 import IStack from '../../common/interfaces/IStack';
 import Disk from '../Disc/Disk';
 
