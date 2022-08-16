@@ -28,6 +28,9 @@ const StyledDiv = styled.div.attrs((props: StyleProps) => ({
     background-color: ${props => props.color};
     height: ${props => props.height};
     animation: ${props => props.animation} 1s linear infinite;
+    &:focus {
+        border: 1px solid rgba(0, 0, 0, 0.4);
+    }
 `;
 
 type Props = IDisc & { moveDisc: (target: EventTarget, stackId: number) => void, discsNum: number };

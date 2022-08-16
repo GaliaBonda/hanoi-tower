@@ -9,7 +9,7 @@ import IStack from '../../common/interfaces/IStack';
 const StyledDiv = styled.div`
   height: 70vh;
   width: 80%;
-  border: 1px solid rgb(0 0 0 / 8%);;
+  border: 1px solid rgb(0 0 0 / 8%);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   background-color: #9edfb8;
   padding: 2em;
@@ -35,6 +35,7 @@ function GameField() {
     title: '',
     text: '',
   });
+  const [winPopup, setWinPopup] = useState(false);
 
   const startStack = new Stack([
     {
@@ -63,13 +64,15 @@ function GameField() {
     stack3: { stack: new Stack([]), id: 3 },
   });
 
+  const { stack1, stack2, stack3 } = stacks;
+
+
   const [targetDisc, setTargetDisc] = useState<EventTarget | null>(null);
   const [targetStack, setTargetStack] = useState(0);
 
   const rodsWrapperRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (event: MouseEvent) => {
-    
     if (!targetDisc) {
       return;
     }
@@ -101,12 +104,13 @@ function GameField() {
     }
     const moveTargetDisc = stacks["stack" + targetStack].stack.pop();
     if (moveTargetDisc) finishStack.stack.push(moveTargetDisc);
+    if (stack2.stack.size() === discsNumber || stack3.stack.size() === discsNumber) {
+      setWinPopup(true);
+    }
     setTargetDisc(null);
   };
 
   const moveDisc = (target: EventTarget, stackId: number) => {
-    console.log(target);
-    
     setTargetDisc(target);
     setTargetStack(stackId);
   };
@@ -133,7 +137,11 @@ function GameField() {
       stack3,
     });
   }
-  const { stack1, stack2, stack3 } = stacks;
+
+  const startNewGame = () => {
+    formStacks();
+    setWinPopup(false);
+  }
 
   return (
     <>
@@ -153,7 +161,9 @@ function GameField() {
           isShown: false,
           title: '',
           text: '',
-        })} />}
+        })} gameControl={false}/>}
+        {winPopup && <Popup title='Congratulations!!!&#127881;' text="Who's the winner? You are the winner! Would you dare to take another round?"
+        closePopup={() => setWinPopup(false)} gameControl={true} okHandle={startNewGame}/>}
     </>
 
   );

@@ -20,6 +20,11 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+  }
 `
 
 const Wrapper = styled.div`

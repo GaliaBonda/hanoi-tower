@@ -1,5 +1,10 @@
-import React, { MouseEvent, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components/macro';
+import PopupControl from '../PopupControl/PopupControl';
+
+interface StyleProps {
+    bgColor?: boolean;
+}
 
 const Overlay = styled.div`
     position: fixed;
@@ -18,10 +23,12 @@ const StyledDiv = styled.div`
     position: relative;
     width: 40em;
     height: 30em;
-    background-color: #d2e5d4;
+    background: ${(props: StyleProps) => props.bgColor ? 
+        'radial-gradient(circle, rgba(204,241,147,1) 0%, rgba(195,240,172,1) 48%, rgba(187,222,236,1) 100%);' : '#d2e5d4'};
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
     border-radius: 15px;
     display: flex;
+    row-gap: 2em;
     justify-content: center;
     align-item: center;
     flex-direction: column;
@@ -47,19 +54,24 @@ const StyledCloseBtn = styled.button`
     width: 3em;
     height: 3em;
     cursor: pointer;
+    &:focus {
+        box-shadow: none;
+    }
     `;
 
 interface Props {
     title: string;
     text: string;
     closePopup: () => void;
+    gameControl: boolean;
+    okHandle?: () => void;
 }
 
-export default function Popup({ title, text, closePopup }: Props) {
+export default function Popup({ title, text, closePopup, gameControl, okHandle }: Props) {
     
     return (
         <Overlay>
-            <StyledDiv>
+            <StyledDiv bgColor={gameControl}>
                 <StyledHeading>{title}</StyledHeading>
                 <StyledParagraph>{text}</StyledParagraph>
                 <StyledCloseBtn onClick={closePopup}>
@@ -70,6 +82,7 @@ export default function Popup({ title, text, closePopup }: Props) {
                         </g>
                     </svg>
                 </StyledCloseBtn>
+                {gameControl && <PopupControl okHandle={okHandle} cancelHandle={closePopup}/>}
             </StyledDiv>
         </Overlay>
     );

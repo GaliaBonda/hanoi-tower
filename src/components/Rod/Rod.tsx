@@ -84,7 +84,7 @@ const [popupShown, setPopupShown] = useState(false);
         </WrapperDiv>
         {popupShown && 
         <Popup title={'Missed!'} text={'Only the top disc can be moved. It looks like you\'re trying to ruin the tower...'}
-        closePopup={() => setPopupShown(false)} />}
+        closePopup={() => setPopupShown(false)} gameControl={false}/>}
         </>
     );
 }

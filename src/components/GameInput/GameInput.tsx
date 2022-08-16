@@ -25,7 +25,7 @@ const StyledLabel = styled.label`
     font-weight: bold;
     `;
 
-    const StyledButton = styled.button`
+const StyledButton = styled.button`
     background-color: #70b96a;
     text-transform: uppercase;
     border: none;
@@ -38,7 +38,7 @@ const StyledLabel = styled.label`
       box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px; 
     }
     `;
-  const ControlDiv = styled.div`
+const ControlDiv = styled.div`
     display: flex;
     gap: 3em;
     align-items: center;
@@ -64,16 +64,16 @@ export default function GameInput({ value, handleChange, formStacks }: Props) {
 
     return (
         <>
-        <ControlDiv>
-            <StyledLabel>
-                How many discs?
-                <StyledInput placeholder='3' value={value} onFocus={(event: FocusEvent<HTMLInputElement>) => event.target.select()}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {handleInputChange(event.target.value)}}/>
-            </StyledLabel>
-            <StyledButton onClick={formStacks}>Start</StyledButton>
-        </ControlDiv>
-        {popup && <Popup title='Invalid discs amount!' text='Please, enter only positive numerical values from 1 to 100. Or make you`re own game'
-        closePopup={() => setPopup(false)}/>}    
+            <ControlDiv>
+                <StyledLabel>
+                    How many discs?
+                    <StyledInput placeholder='3' value={value} onFocus={(event: FocusEvent<HTMLInputElement>) => event.target.select()}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => { handleInputChange(event.target.value) }} />
+                </StyledLabel>
+                <StyledButton onClick={formStacks}>Start</StyledButton>
+            </ControlDiv>
+            {popup && <Popup title='Invalid discs amount!' text='Please, enter only positive numerical values from 1 to 100. Or make you`re own game'
+                closePopup={() => setPopup(false)} gameControl={false} />}
         </>
 
     );
