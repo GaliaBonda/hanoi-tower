@@ -87,7 +87,7 @@ function GameField() {
 
   const rodsWrapperRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseUp = (event: MouseEvent) => {
+  const handleClick = (event: MouseEvent) => {
     if (!targetDisc) {
       return;
     }
@@ -170,7 +170,7 @@ function GameField() {
           <GameInput value={discsNumber} handleChange={handleChange} />
           <StyledButton onClick={formStacks}>Start</StyledButton>
         </ControlDiv>
-        <StacksWrapper ref={rodsWrapperRef} onClick={handleMouseUp}>
+        <StacksWrapper ref={rodsWrapperRef} onClick={handleClick}>
           <Rod stack={stacks.stack1} moveDisc={moveDisc} id={1} />
           <Rod stack={stacks.stack2} moveDisc={moveDisc} id={2} />
           <Rod stack={stacks.stack3} moveDisc={moveDisc} id={3} />

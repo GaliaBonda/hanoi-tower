@@ -38,7 +38,6 @@ export default function GameInput({ value, handleChange }: Props) {
                 How many discs?
                 <StyledInput placeholder='3' value={value} 
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {handleChange(event.target.value)}}/>
-                
             </StyledLabel>
         </>
 
