@@ -55,7 +55,7 @@ export default function GameInput({ value, handleChange, formStacks }: Props) {
     const [popup, setPopup] = useState(false);
     const handleInputChange = (value: string) => {
         const numberValue = Number(value);
-        if (!numberValue || numberValue < 0 || numberValue > 100) {
+        if (!numberValue || numberValue < 0 || numberValue > 10) {
             setPopup(true);
             return;
         }
@@ -72,7 +72,7 @@ export default function GameInput({ value, handleChange, formStacks }: Props) {
                 </StyledLabel>
                 <StyledButton onClick={formStacks}>Start</StyledButton>
             </ControlDiv>
-            {popup && <Popup title='Invalid discs amount!' text='Please, enter only positive numerical values from 1 to 100. Or make you`re own game'
+            {popup && <Popup title='Invalid discs amount!' text='Please, enter only positive numerical values from 1 to 10. Or make you`re own game'
                 closePopup={() => setPopup(false)} gameControl={false} />}
         </>
 
