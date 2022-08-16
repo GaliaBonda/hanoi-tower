@@ -4,6 +4,7 @@ import GameInput from '../GameInput/GameInput';
 import Rod from '../Rod/Rod';
 import Stack from '../../common/utils/Stack';
 import Popup from '../Popup/Popup';
+import IStack from '../../common/interfaces/IStack';
 
 const StyledDiv = styled.div`
   height: 70vh;
@@ -58,28 +59,25 @@ function GameField() {
       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
       height: `calc(60% / ${discsNumber})`,
       id: 0,
-      stackId: 1,
     },
     {
       width: discsNumber - 1,
       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
       height: `calc(60% / ${discsNumber})`,
       id: 1,
-      stackId: 1,
     },
     {
       width: discsNumber - 2,
       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
       height: `calc(60% / ${discsNumber})`,
       id: 2,
-      stackId: 1,
     }
   ]);
 
-  const [stacks, setStacks] = useState<{ [stack: string]: Stack }>({
-    stack1: startStack,
-    stack2: new Stack([]),
-    stack3: new Stack([]),
+  const [stacks, setStacks] = useState<{ [stack: string]: IStack }>({
+    stack1: { stack: startStack, id: 1},
+    stack2:{ stack: new Stack([]), id: 2},
+    stack3: {stack: new Stack([]), id: 3},
   });
 
   const [targetDisc, setTargetDisc] = useState<EventTarget | null>(null);
@@ -93,12 +91,12 @@ function GameField() {
     }
 
     if (!rodsWrapperRef.current) return;
-    if (stacks["stack" + targetStack].size() === 0) return;
+    if (stacks["stack" + targetStack].stack.size() === 0) return;
     const leftPoint = rodsWrapperRef.current.offsetLeft;
     const wrapperWidth = rodsWrapperRef.current.offsetWidth;
     const mousePosition = event.screenX;
 
-    const moveTarget = stacks["stack" + targetStack].peek();
+    const moveTarget = stacks["stack" + targetStack].stack.peek();
     let finishStack = stacks["stack" + targetStack];
     if (mousePosition <= leftPoint + wrapperWidth / 3) {
       finishStack = stacks.stack1
@@ -107,8 +105,9 @@ function GameField() {
     } else if (mousePosition > leftPoint + 2 * wrapperWidth / 3) {
       finishStack = stacks.stack3;
     }
-    const topElement = finishStack.peek();
-    if (finishStack.size() > 0 && moveTarget.width > topElement.width) {
+    const topElement = finishStack.stack.peek();
+    if (finishStack.stack.size() > 0 && moveTarget.width > topElement.width) {
+      setTargetDisc(null);
       setPopup({
         isShown: true,
         title: 'Too big!',
@@ -116,8 +115,8 @@ function GameField() {
       });
       return;
     }
-    const moveTargetDisc = stacks["stack" + targetStack].pop();
-    if (moveTargetDisc) finishStack.push(moveTargetDisc);
+    const moveTargetDisc = stacks["stack" + targetStack].stack.pop();
+    if (moveTargetDisc) finishStack.stack.push(moveTargetDisc);
     setTargetDisc(null);
   };
 
@@ -131,16 +130,15 @@ function GameField() {
   }
 
   const formStacks = () => {
-    const stack1 = new Stack([]);
-    const stack2 = new Stack([]);
-    const stack3 = new Stack([]);
+    const stack1 = {stack: new Stack([]), id: 1,};
+    const stack2 = {stack: new Stack([]), id: 2};
+    const stack3 = {stack: new Stack([]), id: 3};
     for (let i = 0; i < discsNumber; i++) {
-      stack1.push({
+      stack1.stack.push({
         width: discsNumber - i,
         color: `hsla(${Math.random() * 360}, 100%, 50%)`,
         height: `calc(60% / ${discsNumber})`,
         id: i,
-        stackId: 1,
       });
     }
     setStacks({
@@ -158,9 +156,9 @@ function GameField() {
           <StyledButton onClick={formStacks}>Start</StyledButton>
         </ControlDiv>
         <StacksWrapper ref={rodsWrapperRef} onClick={handleClick}>
-          <Rod stack={stacks.stack1} moveDisc={moveDisc} id={1} />
-          <Rod stack={stacks.stack2} moveDisc={moveDisc} id={2} />
-          <Rod stack={stacks.stack3} moveDisc={moveDisc} id={3} />
+          <Rod stack={stacks.stack1.stack} moveDisc={moveDisc} id={stacks.stack1.id} />
+          <Rod stack={stacks.stack2.stack} moveDisc={moveDisc} id={stacks.stack2.id} />
+          <Rod stack={stacks.stack3.stack} moveDisc={moveDisc} id={stacks.stack3.id} />
         </StacksWrapper>
       </StyledDiv>
       {popup.isShown && <Popup title={popup.title} text={popup.text}

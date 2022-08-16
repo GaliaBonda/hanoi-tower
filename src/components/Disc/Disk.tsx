@@ -40,7 +40,7 @@ export default function Disk({ width, height, color, stackId, moveDisc }: Props)
 
     const handleClick = (event: MouseEvent) => {
         // event.preventDefault();
-        moveDisc(event.target, stackId);
+        if (stackId) moveDisc(event.target, stackId);
         setAnimatedDisk(true);
         event.stopPropagation();
         document.addEventListener("click", stopAnimation);
