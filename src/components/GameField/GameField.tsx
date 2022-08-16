@@ -148,6 +148,8 @@ function GameField() {
     });
   }
 
+  const {stack1, stack2, stack3} = stacks;
+
   return (
     <>
       <StyledDiv >
@@ -156,9 +158,12 @@ function GameField() {
           <StyledButton onClick={formStacks}>Start</StyledButton>
         </ControlDiv>
         <StacksWrapper ref={rodsWrapperRef} onClick={handleClick}>
-          <Rod stack={stacks.stack1.stack} moveDisc={moveDisc} id={stacks.stack1.id} />
-          <Rod stack={stacks.stack2.stack} moveDisc={moveDisc} id={stacks.stack2.id} />
-          <Rod stack={stacks.stack3.stack} moveDisc={moveDisc} id={stacks.stack3.id} />
+          <Rod stack={stack1.stack} moveDisc={moveDisc} id={stack1.id} 
+          discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()}/>
+          <Rod stack={stack2.stack} moveDisc={moveDisc} id={stack2.id} 
+          discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()}/>
+          <Rod stack={stack3.stack} moveDisc={moveDisc} id={stack3.id} 
+          discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()}/>
         </StacksWrapper>
       </StyledDiv>
       {popup.isShown && <Popup title={popup.title} text={popup.text}

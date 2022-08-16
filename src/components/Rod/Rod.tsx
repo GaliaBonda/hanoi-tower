@@ -4,12 +4,14 @@ import IStack from '../../common/interfaces/IStack';
 import Disk from '../Disc/Disk';
 import Popup from '../Popup/Popup';
 
-
-const StyledDiv = styled.div`
+interface StyleProps {
+    discsNum: number;
+}
+const StyledDiv = styled.div.attrs(({discsNum}: StyleProps) => ({discsNum}))`
 
         height: 100%;
         position: relative;
-        width: 1.5em;
+        width: ${props => 4 / props.discsNum}em;
         background-color: #6e6868;
         border-radius: 5px;
         box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
@@ -57,9 +59,9 @@ const DiscsWrapper = styled.div`
         left: 0;
         padding: 2em 1em;`;
 
-type Props = IStack & { moveDisc: (target: EventTarget, stackId: number) => void };
+type Props = IStack & { moveDisc: (target: EventTarget, stackId: number) => void, discsNum: number };
 
-function Rod({ stack, id, moveDisc }: Props) {
+function Rod({ stack, id, moveDisc, discsNum }: Props) {
 const [popupShown, setPopupShown] = useState(false);
 
     const wrongDiskAlert = () => {
@@ -69,13 +71,13 @@ const [popupShown, setPopupShown] = useState(false);
     return (
         <>
         <WrapperDiv>
-            <StyledDiv/>
+            <StyledDiv discsNum={discsNum}/>
             <DiscsWrapper>
                 {stack.getArray().map((item, index) => {
                     return (
                         <Disk width={item.width} key={item.id} color={item.color} id={item.id}
                             height={item.height} stackId={id} 
-                            moveDisc={index === stack.getArray().length - 1 ? moveDisc : wrongDiskAlert} />
+                            moveDisc={index === stack.getArray().length - 1 ? moveDisc : wrongDiskAlert} discsNum={discsNum}/>
                     );
                 })}
             </DiscsWrapper>
