@@ -21,6 +21,7 @@ const StyledBtn = styled.button`
 `;
 
 interface TestProps {
+    [x: string]: any;
     okHandle?: () => void;
     cancelHandle: () => void;
     backgroundColor: string;
