@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import styled, { Keyframes, keyframes } from 'styled-components/macro';
 import IDisc from '../../common/interfaces/IDisc';
 
@@ -41,7 +41,6 @@ export default function Disk({ width, height, color, stackId, discsNum, moveDisc
     }
 
     const handleClick = (event: MouseEvent) => {
-        // event.preventDefault();
         if (stackId) moveDisc(event.target, stackId);
         setAnimatedDisk(true);
         event.stopPropagation();
@@ -50,6 +49,6 @@ export default function Disk({ width, height, color, stackId, discsNum, moveDisc
 
     return (
         <StyledDiv width={width} height={height} color={color} onClick={(event: MouseEvent) => { handleClick(event) }} 
-        animation={animatedDisc ? discAnimation : ""} discsNum={discsNum}/>
+        animation={animatedDisc ? discAnimation : ""} discsNum={discsNum} onBlur={() => setAnimatedDisk(false)} tabIndex={0}/>
     );
 }

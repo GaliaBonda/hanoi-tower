@@ -14,6 +14,12 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-family: inherit;
   }
+
+  *:focus {
+    border: none;
+    outline: none;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  }
 `
 
 const Wrapper = styled.div`

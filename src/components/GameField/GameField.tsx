@@ -26,24 +26,7 @@ const StacksWrapper = styled.div`
   height: 60%;
   padding: 2em;
 `;
-const StyledButton = styled.button`
-  background-color: #70b96a;
-  text-transform: uppercase;
-  border: none;
-  padding: 1em 2em;
-  border-radius: 10px;
-  cursor: pointer;
-  border: 3px solid rgba(0, 0, 0, 0.02);
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px; 
-  }
-  `;
-const ControlDiv = styled.div`
-  display: flex;
-  gap: 3em;
-  align-items: center;
-`;
+
 
 function GameField() {
   const [discsNumber, setDiscsNum] = useState(3);
@@ -75,9 +58,9 @@ function GameField() {
   ]);
 
   const [stacks, setStacks] = useState<{ [stack: string]: IStack }>({
-    stack1: { stack: startStack, id: 1},
-    stack2:{ stack: new Stack([]), id: 2},
-    stack3: {stack: new Stack([]), id: 3},
+    stack1: { stack: startStack, id: 1 },
+    stack2: { stack: new Stack([]), id: 2 },
+    stack3: { stack: new Stack([]), id: 3 },
   });
 
   const [targetDisc, setTargetDisc] = useState<EventTarget | null>(null);
@@ -86,6 +69,7 @@ function GameField() {
   const rodsWrapperRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (event: MouseEvent) => {
+    
     if (!targetDisc) {
       return;
     }
@@ -121,6 +105,8 @@ function GameField() {
   };
 
   const moveDisc = (target: EventTarget, stackId: number) => {
+    console.log(target);
+    
     setTargetDisc(target);
     setTargetStack(stackId);
   };
@@ -130,9 +116,9 @@ function GameField() {
   }
 
   const formStacks = () => {
-    const stack1 = {stack: new Stack([]), id: 1,};
-    const stack2 = {stack: new Stack([]), id: 2};
-    const stack3 = {stack: new Stack([]), id: 3};
+    const stack1 = { stack: new Stack([]), id: 1, };
+    const stack2 = { stack: new Stack([]), id: 2 };
+    const stack3 = { stack: new Stack([]), id: 3 };
     for (let i = 0; i < discsNumber; i++) {
       stack1.stack.push({
         width: discsNumber - i,
@@ -147,23 +133,19 @@ function GameField() {
       stack3,
     });
   }
-
-  const {stack1, stack2, stack3} = stacks;
+  const { stack1, stack2, stack3 } = stacks;
 
   return (
     <>
       <StyledDiv >
-        <ControlDiv>
-          <GameInput value={discsNumber} handleChange={handleChange} />
-          <StyledButton onClick={formStacks}>Start</StyledButton>
-        </ControlDiv>
+        <GameInput value={discsNumber} handleChange={handleChange} formStacks={formStacks} />
         <StacksWrapper ref={rodsWrapperRef} onClick={handleClick}>
-          <Rod stack={stack1.stack} moveDisc={moveDisc} id={stack1.id} 
-          discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()}/>
-          <Rod stack={stack2.stack} moveDisc={moveDisc} id={stack2.id} 
-          discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()}/>
-          <Rod stack={stack3.stack} moveDisc={moveDisc} id={stack3.id} 
-          discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()}/>
+          <Rod stack={stack1.stack} moveDisc={moveDisc} id={stack1.id}
+            discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()} />
+          <Rod stack={stack2.stack} moveDisc={moveDisc} id={stack2.id}
+            discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()} />
+          <Rod stack={stack3.stack} moveDisc={moveDisc} id={stack3.id}
+            discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()} />
         </StacksWrapper>
       </StyledDiv>
       {popup.isShown && <Popup title={popup.title} text={popup.text}

@@ -23,21 +23,45 @@ const StyledLabel = styled.label`
     text-transform: uppercase;
     font-weight: bold;
     `;
+
+    const StyledButton = styled.button`
+    background-color: #70b96a;
+    text-transform: uppercase;
+    border: none;
+    padding: 1em 2em;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 3px solid rgba(0, 0, 0, 0.02);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    &:hover {
+      box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px; 
+    }
+    `;
+  const ControlDiv = styled.div`
+    display: flex;
+    gap: 3em;
+    align-items: center;
+  `;
+
 interface Props {
     value: number;
     handleChange: (value: string) => void;
+    formStacks: () => void;
 }
 
-export default function GameInput({ value, handleChange }: Props) {
+export default function GameInput({ value, handleChange, formStacks }: Props) {
 
 
     return (
         <>
+        <ControlDiv>
             <StyledLabel>
                 How many discs?
                 <StyledInput placeholder='3' value={value} onFocus={(event: FocusEvent<HTMLInputElement>) => event.target.select()}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {handleChange(event.target.value)}}/>
             </StyledLabel>
+            <StyledButton onClick={formStacks}>Start</StyledButton>
+        </ControlDiv>    
         </>
 
     );
