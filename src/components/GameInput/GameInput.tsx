@@ -1,5 +1,4 @@
-import { number } from 'prop-types';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, FocusEvent } from 'react';
 import styled from 'styled-components/macro';
 
 const StyledInput = styled.input`
@@ -36,7 +35,7 @@ export default function GameInput({ value, handleChange }: Props) {
         <>
             <StyledLabel>
                 How many discs?
-                <StyledInput placeholder='3' value={value} 
+                <StyledInput placeholder='3' value={value} onFocus={(event: FocusEvent<HTMLInputElement>) => event.target.select()}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {handleChange(event.target.value)}}/>
             </StyledLabel>
         </>

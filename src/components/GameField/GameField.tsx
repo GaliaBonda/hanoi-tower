@@ -94,19 +94,9 @@ function GameField() {
 
     if (!rodsWrapperRef.current) return;
     if (stacks["stack" + targetStack].size() === 0) return;
-    //Get sizes of stacks: 
-    // 1) [offsetLeft, offsetLeft + offsetWidth / 3];
-    // 2) (offsetLeft + offsetWidth / 3, offsetLeft + 2 * offsetWidth / 3];
-    // 3) (offsetLeft + 2 * offsetWidth / 3, offsetWidth];
-
     const leftPoint = rodsWrapperRef.current.offsetLeft;
     const wrapperWidth = rodsWrapperRef.current.offsetWidth;
     const mousePosition = event.screenX;
-
-    //Compare with mouse position event.screenX
-    //if mouse position <= offsetLeft + offsetWidth / 3 => Target stack pop; stack #1 push
-    //if mouse position > offsetLeft + offsetWidth / 3 => Target stack pop; stack #2 push 
-    //if mouse position > offsetLeft + 2 * offsetWidth / 3 => Target stack pop; stack #3 push 
 
     const moveTarget = stacks["stack" + targetStack].peek();
     let finishStack = stacks["stack" + targetStack];
@@ -134,9 +124,6 @@ function GameField() {
   const moveDisc = (target: EventTarget, stackId: number) => {
     setTargetDisc(target);
     setTargetStack(stackId);
-    // console.log(target, stackId);
-    // const targetStack = "stack" + stackId;
-    // console.log(stacks[targetStack]);
   };
 
   const handleChange = (value: string) => {
