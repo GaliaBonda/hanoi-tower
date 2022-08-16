@@ -4,7 +4,8 @@ import GameInput from '../GameInput/GameInput';
 import Rod from '../Rod/Rod';
 import Stack from '../../common/utils/Stack';
 import Popup from '../Popup/Popup';
-import IStack from '../../common/interfaces/IStack';
+import IStacks from '../../common/interfaces/IStacks';
+import defineFinishStack from '../../common/utils/defineFinishStack';
 
 const StyledDiv = styled.div`
   height: 70vh;
@@ -58,14 +59,13 @@ function GameField() {
     }
   ]);
 
-  const [stacks, setStacks] = useState<{ [stack: string]: IStack }>({
+  const [stacks, setStacks] = useState<IStacks>({
     stack1: { stack: startStack, id: 1 },
     stack2: { stack: new Stack([]), id: 2 },
     stack3: { stack: new Stack([]), id: 3 },
   });
 
   const { stack1, stack2, stack3 } = stacks;
-
 
   const [targetDisc, setTargetDisc] = useState<EventTarget | null>(null);
   const [targetStack, setTargetStack] = useState(0);
@@ -76,22 +76,14 @@ function GameField() {
     if (!targetDisc) {
       return;
     }
-
     if (!rodsWrapperRef.current) return;
     if (stacks["stack" + targetStack].stack.size() === 0) return;
-    const leftPoint = rodsWrapperRef.current.offsetLeft;
-    const wrapperWidth = rodsWrapperRef.current.offsetWidth;
-    const mousePosition = event.screenX;
-
+    
     const moveTarget = stacks["stack" + targetStack].stack.peek();
-    let finishStack = stacks["stack" + targetStack];
-    if (mousePosition <= leftPoint + wrapperWidth / 3) {
-      finishStack = stacks.stack1
-    } else if (mousePosition > leftPoint + wrapperWidth / 3 && mousePosition <= leftPoint + 2 * wrapperWidth / 3) {
-      finishStack = stacks.stack2;
-    } else if (mousePosition > leftPoint + 2 * wrapperWidth / 3) {
-      finishStack = stacks.stack3;
-    }
+
+    const finishStack = defineFinishStack(stacks, targetStack, rodsWrapperRef.current.offsetLeft,
+      rodsWrapperRef.current.offsetWidth, event.screenX);
+
     const topElement = finishStack.stack.peek();
     if (finishStack.stack.size() > 0 && moveTarget.width > topElement.width) {
       setTargetDisc(null);
@@ -143,17 +135,17 @@ function GameField() {
     setWinPopup(false);
   }
 
+  const stacksSize = stack1.stack.size() + stack2.stack.size() + stack3.stack.size();
+
   return (
     <>
       <StyledDiv >
         <GameInput value={discsNumber} handleChange={handleChange} formStacks={formStacks} />
         <StacksWrapper ref={rodsWrapperRef} onClick={handleClick}>
-          <Rod stack={stack1.stack} moveDisc={moveDisc} id={stack1.id}
-            discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()} />
-          <Rod stack={stack2.stack} moveDisc={moveDisc} id={stack2.id}
-            discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()} />
-          <Rod stack={stack3.stack} moveDisc={moveDisc} id={stack3.id}
-            discsNum={stack1.stack.size() + stack2.stack.size() + stack3.stack.size()} />
+          {Object.values(stacks).map((item) => {
+            return (<Rod stack={item.stack} moveDisc={moveDisc} id={item.id} key={item.id}
+              discsNum={stacksSize} />);
+          })}
         </StacksWrapper>
       </StyledDiv>
       {popup.isShown && <Popup title={popup.title} text={popup.text}
@@ -161,9 +153,9 @@ function GameField() {
           isShown: false,
           title: '',
           text: '',
-        })} gameControl={false}/>}
-        {winPopup && <Popup title='Congratulations!!!&#127881;' text="Who's the winner? You are the winner! Would you dare to take another round?"
-        closePopup={() => setWinPopup(false)} gameControl={true} okHandle={startNewGame}/>}
+        })} gameControl={false} />}
+      {winPopup && <Popup title='Congratulations!!!&#127881;' text="Who's the winner? You are the winner! Would you dare to take another round?"
+        closePopup={() => setWinPopup(false)} gameControl={true} okHandle={startNewGame} />}
     </>
 
   );
