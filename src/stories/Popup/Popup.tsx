@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import PopupControl from './PopupControl';
+import PopupControl from '../PopupControl/PopupControl';
 
 interface StyleProps {
     bgColor?: boolean;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import Disk from './Disk';
+import Disc from './Disc';
 import { userEvent, waitFor, within, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { number } from 'prop-types';
@@ -8,8 +8,8 @@ import { number } from 'prop-types';
 
 
 export default {
-    title: 'Disk',
-    component: Disk,
+    title: 'Disc',
+    component: Disc,
     argTypes: {
         discsNum: {
             control: { type: 'range', min: 1, max: 10, step: 1 },
@@ -22,8 +22,8 @@ export default {
           </div>
         ),
       ],
-} as ComponentMeta<typeof Disk>;
-const Template: ComponentStory<typeof Disk> = (args) => <Disk {...args} />;
+} as ComponentMeta<typeof Disc>;
+const Template: ComponentStory<typeof Disc> = (args) => <Disc {...args} />;
 
 export const Standart = Template.bind({});
 Standart.args = {

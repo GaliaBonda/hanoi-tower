@@ -35,7 +35,7 @@ const StyledDiv = styled.div.attrs((props: StyleProps) => ({
 
 type Props = IDisc & { moveDisc: (target: EventTarget, stackId: number) => void, discsNum: number };
 
-export default function Disk({ width, height, color, stackId, discsNum, moveDisc }: Props) {
+export default function Disc({ width, height, color, stackId, discsNum, moveDisc }: Props) {
     const [animatedDisc, setAnimatedDisk] = useState(false);
 
     const stopAnimation = () => {
@@ -52,6 +52,7 @@ export default function Disk({ width, height, color, stackId, discsNum, moveDisc
 
     return (
         <StyledDiv width={width} height={height} color={color} onClick={(event: MouseEvent) => { handleClick(event) }} 
-        animation={animatedDisc ? discAnimation : ""} discsNum={discsNum} onBlur={() => setAnimatedDisk(false)} tabIndex={0}/>
+        animation={animatedDisc ? discAnimation : ""} discsNum={discsNum} onBlur={() => setAnimatedDisk(false)} tabIndex={0}
+        data-testid="test-disc"/>
     );
 }

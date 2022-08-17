@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FocusEvent, useState } from 'react';
 import styled from 'styled-components/macro';
-import Popup from './Popup';
+import Popup from '../Popup/Popup';
 
 const StyledInput = styled.input`
     border: none;

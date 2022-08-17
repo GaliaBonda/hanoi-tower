@@ -82,7 +82,7 @@ function GameField() {
     const moveTarget = stacks["stack" + targetStack].stack.peek();
 
     const finishStack = defineFinishStack(stacks, targetStack, rodsWrapperRef.current.offsetLeft,
-      rodsWrapperRef.current.offsetWidth, event.screenX);
+      rodsWrapperRef.current.offsetWidth, event.clientX);
 
     const topElement = finishStack.stack.peek();
     if (finishStack.stack.size() > 0 && moveTarget.width > topElement.width) {

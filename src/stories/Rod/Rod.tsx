@@ -61,7 +61,7 @@ const DiscsWrapper = styled.div`
 
 type Props = IStack & { moveDisc: (target: EventTarget, stackId: number) => void, discsNum: number };
 
-function Rod({ stack, id, moveDisc, discsNum }: Props) {
+function Rod({ stack, id = 1, moveDisc, discsNum }: Props) {
 const [popupShown, setPopupShown] = useState(false);
 
     const wrongDiskAlert = () => {
@@ -70,21 +70,21 @@ const [popupShown, setPopupShown] = useState(false);
 
     return (
         <>
-        <WrapperDiv>
+        <WrapperDiv data-testid='test-rod'>
             <StyledDiv discsNum={discsNum}/>
             <DiscsWrapper>
                 {stack.getArray().map((item, index) => {
                     return (
                         <Disc width={item.width} key={item.id} color={item.color} id={item.id}
                             height={item.height} stackId={id} 
-                            moveDisc={index === stack.getArray().length - 1 ? moveDisc : wrongDiskAlert} discsNum={discsNum}/>
+                            moveDisc={index === stack.getArray().length - 1 ? moveDisc : wrongDiskAlert} discsNum={discsNum} />
                     );
                 })}
             </DiscsWrapper>
         </WrapperDiv>
         {popupShown && 
         <Popup title={'Missed!'} text={'Only the top disc can be moved. It looks like you\'re trying to ruin the tower...'}
-        closePopup={() => setPopupShown(false)} gameControl={false}/>}
+            closePopup={() => setPopupShown(false)} gameControl={false} okLabel={''} cancelLabel={''}/>}
         </>
     );
 }
