@@ -68,10 +68,9 @@ TopDiscMoved.play = async () => {
     const topDisc = disc[disc.length - 1];
     await userEvent.click(topDisc);
     const secondRod = screen.getAllByTestId('test-rod')[1];
-    
-    // await userEvent.click(secondRod, {bubbles: true});
-    await fireEvent.click(secondRod, {bubbles: true});
+    const xCoord = secondRod.getBoundingClientRect().x;
     const rodWrapper = screen.getByTestId('test-stacks-wrapper');
-    await userEvent.click(rodWrapper);
+    await userEvent.click(rodWrapper, {clientX: xCoord});
+    await expect(within(secondRod).queryByTestId('test-disc')).not.toBeNull();
 };
 
