@@ -1,6 +1,6 @@
 import React, { MouseEvent, useState } from 'react';
 import styled, { Keyframes, keyframes } from 'styled-components/macro';
-import IDisc from '../../common/interfaces/IDisc';
+import IDisc from '../common/interfaces/IDisc';
 
 interface StyleProps {
     width: number;
@@ -52,6 +52,7 @@ export default function Disk({ width, height, color, stackId, discsNum, moveDisc
 
     return (
         <StyledDiv width={width} height={height} color={color} onClick={(event: MouseEvent) => { handleClick(event) }} 
-        animation={animatedDisc ? discAnimation : ""} discsNum={discsNum} onBlur={() => setAnimatedDisk(false)} tabIndex={0}/>
+        animation={animatedDisc ? discAnimation : ""} discsNum={discsNum} onBlur={() => setAnimatedDisk(false)} tabIndex={0}
+        data-testid="test-disc"/>
     );
 }

@@ -8,6 +8,13 @@ import GameInput from './GameInput';
 export default {
     title: 'GameInput',
     component: GameInput,
+    decorators: [
+        (Story) => (
+          <div style={{ maxWidth: '10em' }}>
+            <Story />
+          </div>
+        ),
+      ],
 } as ComponentMeta<typeof GameInput>;
 
 const Template: ComponentStory<typeof GameInput> = (args) => <GameInput {...args} />;
