@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FocusEvent, useState } from 'react';
 import styled from 'styled-components/macro';
-import Popup from '../Popup/Popup';
+import Popup from './Popup';
 
 const StyledInput = styled.input`
     border: none;
@@ -48,13 +48,13 @@ const ControlDiv = styled.div`
     height: 10%;
   `;
 
-interface Props {
+interface TestProps {
     value: number;
     handleChange: (value: string) => void;
     formStacks: () => void;
 }
 
-export default function GameInput({ value, handleChange, formStacks }: Props) {
+export default function GameInput({ value, handleChange, formStacks }: TestProps) {
     const [popup, setPopup] = useState(false);
     const handleInputChange = (value: string) => {
         const numberValue = Number(value);
@@ -71,12 +71,13 @@ export default function GameInput({ value, handleChange, formStacks }: Props) {
                 <StyledLabel>
                     How many discs?
                     <StyledInput placeholder='3' value={value} onFocus={(event: FocusEvent<HTMLInputElement>) => event.target.select()}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => { handleInputChange(event.target.value) }} />
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => { handleInputChange(event.target.value) }} 
+                        data-testid="test-input"/>
                 </StyledLabel>
                 <StyledButton onClick={formStacks}>Start</StyledButton>
             </ControlDiv>
             {popup && <Popup title='Invalid discs amount!' text='Please, enter only positive numerical values from 1 to 10. Or make you`re own game'
-                closePopup={() => setPopup(false)} gameControl={false} />}
+            closePopup={() => setPopup(false)} gameControl={false} okLabel='Ok' cancelLabel='Cancel' />}
         </>
 
     );

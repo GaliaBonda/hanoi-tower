@@ -61,7 +61,7 @@ const StyledCloseBtn = styled.button`
     `;
 
 interface TestProps {
-    onClick: () => void;
+    onClick?: () => void;
     title: string;
     text: string;
     closePopup: () => void;
@@ -69,10 +69,11 @@ interface TestProps {
     okHandle?: () => void;
     okLabel: string; 
     cancelLabel: string;
-    backgrounColor: string;
+    backgrounColor?: string;
 }
 
-export default function Popup({ title = 'Test', text = 'Testing...', closePopup, gameControl = true, okHandle, okLabel, cancelLabel, backgrounColor }: TestProps) {
+export default function Popup({ title = 'Test', text = 'Testing...', 
+closePopup, gameControl = true, okHandle, okLabel, cancelLabel, backgrounColor = '#70b96a' }: TestProps) {
     
     return (
         <Overlay>
