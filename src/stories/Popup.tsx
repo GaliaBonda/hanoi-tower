@@ -56,10 +56,12 @@ const StyledCloseBtn = styled.button`
     cursor: pointer;
     &:focus {
         box-shadow: none;
+        outline: none;
     }
     `;
 
-interface Props {
+interface TestProps {
+    onClick: () => void;
     title: string;
     text: string;
     closePopup: () => void;
@@ -70,14 +72,14 @@ interface Props {
     backgrounColor: string;
 }
 
-export default function Popup({ title, text, closePopup, gameControl, okHandle, okLabel, cancelLabel, backgrounColor }: Props) {
+export default function Popup({ title = 'Test', text = 'Testing...', closePopup, gameControl = true, okHandle, okLabel, cancelLabel, backgrounColor }: TestProps) {
     
     return (
         <Overlay>
             <StyledDiv bgColor={gameControl}>
                 <StyledHeading>{title}</StyledHeading>
                 <StyledParagraph>{text}</StyledParagraph>
-                <StyledCloseBtn onClick={closePopup}>
+                <StyledCloseBtn onClick={closePopup} data-testid="test-close-bnt">
                     <svg version="1.1" viewBox="0 0 20.699 21.479" xmlns="http://www.w3.org/2000/svg">
                         <g transform="translate(1.632 1.6339)">
                             <path d="m-2.5783e-4 -0.0014681 17.436 18.214" fill="#5f6368" stroke="#5f6368" strokeWidth="3.2316" />
@@ -86,7 +88,7 @@ export default function Popup({ title, text, closePopup, gameControl, okHandle, 
                     </svg>
                 </StyledCloseBtn>
                 {gameControl && <PopupControl okHandle={okHandle} cancelHandle={closePopup} 
-                backgroundColor={backgrounColor} okLabel={okLabel} cancelLabel={cancelLabel}/>}
+                backgroundColor={backgrounColor} okLabel={okLabel} cancelLabel={cancelLabel} />}
             </StyledDiv>
         </Overlay>
     );

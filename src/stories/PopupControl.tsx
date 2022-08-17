@@ -1,3 +1,4 @@
+import { getElementError } from '@testing-library/react';
 import React from 'react';
 import styled from 'styled-components/macro';
 
@@ -18,10 +19,12 @@ const StyledBtn = styled.button`
     &:hover {
     box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px; 
     }
+    &:focus {
+        outline: none;
+    }
 `;
 
 interface TestProps {
-    [x: string]: any;
     okHandle?: () => void;
     cancelHandle: () => void;
     backgroundColor: string;
@@ -29,7 +32,11 @@ interface TestProps {
     cancelLabel: string;
 }
 
-export default function PopupControl({okHandle, cancelHandle, backgroundColor, okLabel='Ok', cancelLabel='Cancel'} : TestProps) {
+
+
+export default function PopupControl({okHandle, 
+    cancelHandle, 
+    backgroundColor, okLabel='Ok', cancelLabel='Cancel'} : TestProps) {
     return (<>
     <StyledDiv>
         <StyledBtn onClick={okHandle} style={{backgroundColor}}>{okLabel}</StyledBtn>

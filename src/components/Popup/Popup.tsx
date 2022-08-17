@@ -56,6 +56,7 @@ const StyledCloseBtn = styled.button`
     cursor: pointer;
     &:focus {
         box-shadow: none;
+        outline: none;
     }
     `;
 
