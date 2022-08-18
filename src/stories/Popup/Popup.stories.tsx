@@ -1,14 +1,17 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Popup from './Popup';
-import { userEvent, waitFor, within, screen } from '@storybook/testing-library';
+import { userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+import { action } from '@storybook/addon-actions';
 
 export default {
     title: 'Popup',
     component: Popup,
     argTypes: {
-       onClick: { action: 'clicked' },
+      //  closePopup: { action: 'popup closed' },
+      //  okClicked: { action: 'ok clicked' },
+      //  cancelClicked: { action: 'cancel clicked' },
     }
   } as ComponentMeta<typeof Popup>;
 
@@ -18,37 +21,32 @@ export default {
   Standart.args = {
     title: 'Test Popup',
     text: 'Just testing...',
-    closePopup: () => alert('close popup'),
     gameControl: false,
     okLabel: 'Ok',
     cancelLabel: 'Cancel',
     backgrounColor: '#70b96a',
+    okClicked: action('ok clicked'),
+    cancelClicked: action('cancel clicked'),
+    closePopup: action('popup closed'),
 }; 
 
 export const CancelClicked = Template.bind({});
-
-CancelClicked.play = async ({ args, canvasElement }) => {
-  // const canvas = within(canvasElement);
-
+CancelClicked.args = {...Standart.args, gameControl: true,};
+CancelClicked.play = async ({ args }) => {
   await userEvent.click(screen.getByRole('button', {name: 'Cancel'}));
-
-  // await expect(
-  //   canvas.getByText(
-  //     'cancel clicked'
-  //   )
-  // ).toBeInTheDocument();
-
-  await waitFor(() => expect(args.onClick).toBeCalled);
+  await waitFor(() => expect(args.cancelClicked).toBeCalled);
 };
 
 export const OkClicked = Template.bind({});
-OkClicked.play = async ({ args, canvasElement }) => {
+OkClicked.args = {...Standart.args, gameControl: true,};
+OkClicked.play = async ({ args }) => {
   await userEvent.click(screen.getByRole('button', {name: 'Ok'}));
-  await waitFor(() => expect(args.onClick).toBeCalled);
+  await waitFor(() => expect(args.okClicked).toBeCalled);
 };
 
 export const CloseClicked = Template.bind({});
-CloseClicked.play = async ({ args, canvasElement }) => {
+CloseClicked.args = {...Standart.args, gameControl: true,};
+CloseClicked.play = async ({ args }) => {
   await userEvent.click(screen.getByTestId('test-close-bnt'));
-  await waitFor(() => expect(args.onClick).toBeCalled);
+  await waitFor(() => expect(args.closePopup).toBeCalled);
 };

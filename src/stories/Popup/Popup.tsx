@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import PopupControl from '../PopupControl/PopupControl';
+import { action } from '@storybook/addon-actions';
+import { OkClicked } from './Popup.stories';
 
 interface StyleProps {
     bgColor?: boolean;
@@ -70,10 +72,12 @@ interface TestProps {
     okLabel: string; 
     cancelLabel: string;
     backgrounColor?: string;
+    cancelClicked?: () => void;
+    okClicked?: () => void;
 }
 
-export default function Popup({ title = 'Test', text = 'Testing...', 
-closePopup, gameControl = true, okHandle, okLabel, cancelLabel, backgrounColor = '#70b96a' }: TestProps) {
+export default function Popup({ title, text, gameControl, okLabel, cancelLabel, backgrounColor, 
+    okClicked, cancelClicked, closePopup }: TestProps) {
     
     return (
         <Overlay>
@@ -88,8 +92,8 @@ closePopup, gameControl = true, okHandle, okLabel, cancelLabel, backgrounColor =
                         </g>
                     </svg>
                 </StyledCloseBtn>
-                {gameControl && <PopupControl okHandle={okHandle} cancelHandle={closePopup} 
-                backgroundColor={backgrounColor} okLabel={okLabel} cancelLabel={cancelLabel} />}
+                {gameControl && <PopupControl okHandle={ okClicked } cancelHandle={cancelClicked} 
+                backgroundColor={backgrounColor || '#70b96a'} okLabel={okLabel} cancelLabel={cancelLabel} />}
             </StyledDiv>
         </Overlay>
     );

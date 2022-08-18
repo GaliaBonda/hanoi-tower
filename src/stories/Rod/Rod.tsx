@@ -59,7 +59,10 @@ const DiscsWrapper = styled.div`
         left: 0;
         padding: 2em 1em;`;
 
-type Props = IStack & { moveDisc: (target: EventTarget, stackId: number) => void, discsNum: number };
+type Props = IStack & { 
+    moveDisc: (target: EventTarget, stackId: number) => void; 
+    discsNum: number; 
+};
 
 function Rod({ stack, id = 1, moveDisc, discsNum }: Props) {
 const [popupShown, setPopupShown] = useState(false);
@@ -83,8 +86,8 @@ const [popupShown, setPopupShown] = useState(false);
             </DiscsWrapper>
         </WrapperDiv>
         {popupShown && 
-        <Popup title={'Missed!'} text={'Only the top disc can be moved. It looks like you\'re trying to ruin the tower...'}
-            closePopup={() => setPopupShown(false)} gameControl={false} okLabel={''} cancelLabel={''}/>}
+        <Popup title='Missed!' text="Only the top disc can be moved. It looks like you're trying to ruin the tower..."
+            closePopup={() => setPopupShown(false)} gameControl={false} okLabel='' cancelLabel='' backgrounColor='#70b96a'/>}
         </>
     );
 }

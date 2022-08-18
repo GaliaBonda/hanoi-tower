@@ -1,63 +1,63 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Disc from './Disc';
-import { userEvent, waitFor, within, screen } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
-import { number } from 'prop-types';
+import { userEvent, within, screen } from '@storybook/testing-library';
 
 
 
 export default {
-    title: 'Disc',
-    component: Disc,
-    argTypes: {
-        discsNum: {
-            control: { type: 'range', min: 1, max: 10, step: 1 },
-          },
-      },
-      decorators: [
-        (Story) => (
-          <div data-testid="test-wrapper">
-            <Story />
-          </div>
-        ),
-      ],
+  title: 'Disc',
+  component: Disc,
+  argTypes: {
+    
+    moveDisc: { action: 'move disc' },
+  },
+  decorators: [
+    (Story) => (
+      <div data-testid="test-wrapper">
+        <Story />
+      </div>
+    ),
+  ],
 } as ComponentMeta<typeof Disc>;
 const Template: ComponentStory<typeof Disc> = (args) => <Disc {...args} />;
 
 export const Standart = Template.bind({});
 Standart.args = {
-    width: 1,
-    color: 'red',
-    height: '2em',
-    stackId: 1, 
-    discsNum: 3, 
-    moveDisc: () => {},
+  width: 1,
+  color: 'red',
+  height: '2em',
+  stackId: 1,
+  discsNum: 3,
+  animatedState: false,
 };
 
 export const Animated = Template.bind({});
 Animated.args = {
-    ...Standart.args
+  ...Standart.args
 };
 Animated.play = async () => {
-    const disc = screen.getByTestId('test-disc');
-    await userEvent.click(disc);
+  const disc = screen.getByTestId('test-disc');
+  await userEvent.click(disc);
 
 };
 
 function sleep(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export const StopAnimated = Template.bind({});
 StopAnimated.args = {
-    ...Standart.args
+  ...Standart.args
 };
 StopAnimated.play = async ({ canvasElement }) => {
-    const disc = screen.getByTestId('test-disc');
-    await userEvent.click(disc);
-    await sleep(2000);
-    const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByTestId('test-wrapper'));
-    
+  const disc = screen.getByTestId('test-disc');
+  await userEvent.click(disc);
+  await sleep(2000);
+  const canvas = within(canvasElement);
+  await userEvent.click(canvas.getByTestId('test-wrapper'));
+
 };
+
+export const WithStateAnimated = Template.bind({});
+WithStateAnimated.args = { ...Standart.args, animatedState: true, };

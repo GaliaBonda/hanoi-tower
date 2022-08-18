@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import GameField from './GameField';
-import { userEvent, within, screen, fireEvent } from '@storybook/testing-library';
+import { userEvent, within, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
 
@@ -24,9 +24,7 @@ Standart.args = {
 };
 
 export const FiveDiscsGame = Template.bind({});
-FiveDiscsGame.args = {
-    ...Standart.args
-};
+
 FiveDiscsGame.play = async () => {
     const input = screen.getByRole('textbox');
     await userEvent.type(input, '5');
@@ -36,9 +34,7 @@ FiveDiscsGame.play = async () => {
     await expect(disc.length).toEqual(5);
 };
 export const TenDiscsGame = Template.bind({});
-TenDiscsGame.args = {
-    ...Standart.args
-};
+
 TenDiscsGame.play = async () => {
     const input = screen.getByRole('textbox');
     await userEvent.type(input, '10');
@@ -49,9 +45,7 @@ TenDiscsGame.play = async () => {
 };
 
 export const ElevenDiscsGame = Template.bind({});
-ElevenDiscsGame.args = {
-    ...Standart.args
-};
+
 ElevenDiscsGame.play = async ({ canvasElement }) => {
     const input = screen.getByRole('textbox');
     await userEvent.type(input, '11');
@@ -60,9 +54,7 @@ ElevenDiscsGame.play = async ({ canvasElement }) => {
 };
 
 export const TopDiscMoved = Template.bind({});
-TopDiscMoved.args = {
-    ...Standart.args
-};
+
 TopDiscMoved.play = async () => {
     const disc = screen.getAllByTestId('test-disc');
     const topDisc = disc[disc.length - 1];

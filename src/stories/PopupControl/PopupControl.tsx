@@ -1,4 +1,3 @@
-import { getElementError } from '@testing-library/react';
 import React from 'react';
 import styled from 'styled-components/macro';
 
@@ -26,17 +25,13 @@ const StyledBtn = styled.button`
 
 interface TestProps {
     okHandle?: () => void;
-    cancelHandle: () => void;
+    cancelHandle?: () => void;
     backgroundColor: string;
     okLabel: string;
     cancelLabel: string;
 }
 
-
-
-export default function PopupControl({okHandle, 
-    cancelHandle, 
-    backgroundColor, okLabel='Ok', cancelLabel='Cancel'} : TestProps) {
+export default function PopupControl({okHandle, cancelHandle, backgroundColor, okLabel, cancelLabel} : TestProps) {
     return (<>
     <StyledDiv>
         <StyledBtn onClick={okHandle} style={{backgroundColor}}>{okLabel}</StyledBtn>

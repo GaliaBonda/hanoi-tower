@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { userEvent, waitFor, within, screen } from '@storybook/testing-library';
+import { userEvent, within, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import GameInput from './GameInput';
 
@@ -14,6 +14,10 @@ export default {
           </div>
         ),
       ],
+      argTypes: {
+        handleChange: { action: 'input changed' },
+        formStacks: { action: 'stacks formed' },
+     }
 } as ComponentMeta<typeof GameInput>;
 
 const Template: ComponentStory<typeof GameInput> = (args) => <GameInput {...args} />;
@@ -21,16 +25,12 @@ const Template: ComponentStory<typeof GameInput> = (args) => <GameInput {...args
 export const Standart = Template.bind({});
 Standart.args = {
     value: 3,
-    handleChange: (value: string) => alert(value),
-    formStacks: () => alert('form stacks'),
 };
 
 export const FilledInput = Template.bind({});
 let inputVal;
 FilledInput.args = {
-    value: inputVal,
-    handleChange: (value: string) => { inputVal = value },
-    formStacks: () => { },
+    ...Standart.args,
 };
 FilledInput.play = async () => {
     const input = screen.getByTestId('test-input');
@@ -40,9 +40,7 @@ FilledInput.play = async () => {
 
 export const FilledInputNan = Template.bind({});
 FilledInputNan.args = {
-    value: inputVal,
-    handleChange: (value: string) => { inputVal = value },
-    formStacks: () => { },
+    ...Standart.args,
 };
 FilledInputNan.play = async ({ canvasElement }) => {
     const input = screen.getByTestId('test-input');
@@ -53,9 +51,7 @@ FilledInputNan.play = async ({ canvasElement }) => {
 
 export const FilledInputTooBig = Template.bind({});
 FilledInputTooBig.args = {
-    value: inputVal,
-    handleChange: (value: string) => { inputVal = value },
-    formStacks: () => { },
+    ...Standart.args,
 };
 
 FilledInputTooBig.play = async ({ canvasElement }) => {
@@ -67,9 +63,7 @@ FilledInputTooBig.play = async ({ canvasElement }) => {
 
 export const StartBtnClicked = Template.bind({});
 StartBtnClicked.args = {
-    value: inputVal,
-    handleChange: (value: string) => { inputVal = value },
-    formStacks: () => {alert('form stacks clicked')},
+    ...Standart.args,
 };
 
 StartBtnClicked.play = async () => {

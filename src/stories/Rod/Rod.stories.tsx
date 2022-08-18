@@ -1,10 +1,11 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Rod from './Rod';
-import { userEvent, waitFor, within, screen } from '@storybook/testing-library';
+import { userEvent, within, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import Stack from '../../common/utils/Stack';
-import DiscStories from '../Disc/Disc.stories';
+import { action } from '@storybook/addon-actions';
+import * as PopupStories from '../Popup/Popup.stories';
 
 
 
@@ -12,9 +13,7 @@ export default {
     title: 'Rod',
     component: Rod,
     argTypes: {
-        stack: {
-          control: false,
-        },
+        moveDisc: {action: 'move disc'},
       },
     decorators: [
         (Story) => (
@@ -47,7 +46,7 @@ Standart.args = {
         height: `calc(60% / 3)`,
         id: 2,
       }]), 
-      moveDisc: () => {},
+      moveDisc: action('move disc'),
 };
 
 export const CorrectDiscMove = Template.bind({});
@@ -61,11 +60,11 @@ CorrectDiscMove.play = async ({ canvasElement }) => {
     await expect(canvas.queryByText('Missed!')).toBeNull();
 
 };
-export const InCorrectDiscMove = Template.bind({});
-InCorrectDiscMove.args = {
+export const IncorrectDiscMove = Template.bind({});
+IncorrectDiscMove.args = {
     ...Standart.args
 };
-InCorrectDiscMove.play = async ({ canvasElement }) => {
+IncorrectDiscMove.play = async ({ canvasElement }) => {
     const disc = screen.getAllByTestId('test-disc');
     await userEvent.click(disc[0]);
     const canvas = within(canvasElement);

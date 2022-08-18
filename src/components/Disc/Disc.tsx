@@ -33,7 +33,10 @@ const StyledDiv = styled.div.attrs((props: StyleProps) => ({
     }
 `;
 
-type Props = IDisc & { moveDisc: (target: EventTarget, stackId: number) => void, discsNum: number };
+type Props = IDisc & {
+     moveDisc: (target: EventTarget, stackId: number) => void; 
+     discsNum: number; 
+    };
 
 export default function Disc({ width, height, color, stackId, discsNum, moveDisc }: Props) {
     const [animatedDisc, setAnimatedDisk] = useState(false);

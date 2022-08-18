@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions';
 import React, { MouseEvent, useState } from 'react';
 import styled, { Keyframes, keyframes } from 'styled-components/macro';
 import IDisc from '../../common/interfaces/IDisc';
@@ -33,9 +34,13 @@ const StyledDiv = styled.div.attrs((props: StyleProps) => ({
     }
 `;
 
-type Props = IDisc & { moveDisc: (target: EventTarget, stackId: number) => void, discsNum: number };
+type TestProps = IDisc & { 
+    moveDisc: (target: EventTarget, stackId: number) => void;
+     discsNum: number; 
+     animatedState?: boolean; 
+};
 
-export default function Disc({ width, height, color, stackId, discsNum, moveDisc }: Props) {
+export default function Disc({ width, height, color, stackId, discsNum, moveDisc = action('move disc'), animatedState }: TestProps) {
     const [animatedDisc, setAnimatedDisk] = useState(false);
 
     const stopAnimation = () => {
@@ -52,7 +57,7 @@ export default function Disc({ width, height, color, stackId, discsNum, moveDisc
 
     return (
         <StyledDiv width={width} height={height} color={color} onClick={(event: MouseEvent) => { handleClick(event) }} 
-        animation={animatedDisc ? discAnimation : ""} discsNum={discsNum} onBlur={() => setAnimatedDisk(false)} tabIndex={0}
+        animation={(animatedDisc || animatedState) ? discAnimation : ""} discsNum={discsNum} onBlur={() => setAnimatedDisk(false)} tabIndex={0}
         data-testid="test-disc"/>
     );
 }

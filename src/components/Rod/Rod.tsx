@@ -59,7 +59,10 @@ const DiscsWrapper = styled.div`
         left: 0;
         padding: 2em 1em;`;
 
-type Props = IStack & { moveDisc: (target: EventTarget, stackId: number) => void, discsNum: number };
+type Props = IStack & { 
+    moveDisc: (target: EventTarget, stackId: number) => void; 
+    discsNum: number; 
+};
 
 function Rod({ stack, id, moveDisc, discsNum }: Props) {
 const [popupShown, setPopupShown] = useState(false);
