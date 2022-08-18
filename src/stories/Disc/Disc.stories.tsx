@@ -3,18 +3,15 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Disc from './Disc';
 import { userEvent, within } from '@storybook/testing-library';
 
-
-
 export default {
   title: 'Disc',
   component: Disc,
   argTypes: {
-    moveDisc: { action: 'move disc', table: { disable: true, }, },
-  
+    moveDisc: { action: 'move disc', table: { disable: true } },
   },
   decorators: [
     (Story) => (
-      <div data-testid="test-wrapper">
+      <div data-testid='test-wrapper'>
         <Story />
       </div>
     ),
@@ -35,13 +32,12 @@ Standart.args = {
 
 export const Animated = Template.bind({});
 Animated.args = {
-  ...Standart.args
+  ...Standart.args,
 };
-Animated.play = async ({canvasElement}) => {
+Animated.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const disc = canvas.getByTestId('test-disc');
   await userEvent.click(disc);
-
 };
 
 function sleep(ms: number) {
@@ -50,7 +46,7 @@ function sleep(ms: number) {
 
 export const StopAnimated = Template.bind({});
 StopAnimated.args = {
-  ...Standart.args
+  ...Standart.args,
 };
 StopAnimated.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
@@ -58,8 +54,7 @@ StopAnimated.play = async ({ canvasElement }) => {
   await userEvent.click(disc);
   await sleep(2000);
   await userEvent.click(canvas.getByTestId('test-wrapper'));
-
 };
 
 export const WithStateAnimated = Template.bind({});
-WithStateAnimated.args = { ...Standart.args, animatedState: true, };
+WithStateAnimated.args = { ...Standart.args, animatedState: true };

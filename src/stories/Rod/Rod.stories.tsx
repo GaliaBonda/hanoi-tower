@@ -9,12 +9,15 @@ export default {
   title: 'Rod',
   component: Rod,
   argTypes: {
-    moveDisc: { action: 'move disc', table: { disable: true, }, },
-    stack: {table: { disable: true, },},
+    moveDisc: { action: 'move disc', table: { disable: true } },
+    stack: { table: { disable: true } },
   },
   decorators: [
     (Story) => (
-      <div data-testid="test-wrapper" style={{ height: '50vh', position: 'relative' }}>
+      <div
+        data-testid='test-wrapper'
+        style={{ height: '50vh', position: 'relative' }}
+      >
         <Story />
       </div>
     ),
@@ -32,11 +35,11 @@ export const FiveDiscsRod = Template.bind({});
 FiveDiscsRod.args = {
   discsNum: 5,
   stack: formStacks(5).stack1.stack,
-}
+};
 
 export const CorrectDiscMove = Template.bind({});
 CorrectDiscMove.args = {
-  ...Standart.args
+  ...Standart.args,
 };
 CorrectDiscMove.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
@@ -47,14 +50,13 @@ CorrectDiscMove.play = async ({ args, canvasElement }) => {
 };
 export const IncorrectDiscMove = Template.bind({});
 IncorrectDiscMove.args = {
-  ...Standart.args
+  ...Standart.args,
 };
 IncorrectDiscMove.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const disc = canvas.getAllByTestId('test-disc');
   await userEvent.click(disc[0]);
   await expect(canvas.queryByText('Missed!')).toBeInTheDocument();
-
 };
 
 export const WithPopupToggled = Template.bind({});

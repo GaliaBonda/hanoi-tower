@@ -32,10 +32,12 @@ interface TestProps {
 }
 
 export default function PopupControl({okHandle, cancelHandle, backgroundColor, okLabel, cancelLabel} : TestProps) {
-    return (<>
+    return (
+    <>
     <StyledDiv>
         <StyledBtn onClick={okHandle} style={{backgroundColor}}>{okLabel}</StyledBtn>
         <StyledBtn onClick={cancelHandle} style={{backgroundColor}}>{cancelLabel}</StyledBtn>
     </StyledDiv>
-    </>);
+    </>
+    );
 }

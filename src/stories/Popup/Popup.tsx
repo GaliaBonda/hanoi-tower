@@ -23,7 +23,7 @@ const StyledDiv = styled.div`
     position: relative;
     width: 40em;
     height: 30em;
-    background: ${(props: StyleProps) => props.bgColor ? 
+    background: ${(props: StyleProps) => props.bgColor ?
         'radial-gradient(circle, rgba(204,241,147,1) 0%, rgba(195,240,172,1) 48%, rgba(187,222,236,1) 100%);' : '#d2e5d4'};
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
     border-radius: 15px;
@@ -66,16 +66,16 @@ interface TestProps {
     closePopup: () => void;
     gameControl: boolean;
     okHandle?: () => void;
-    okLabel: string; 
+    okLabel: string;
     cancelLabel: string;
     backgrounColor?: string;
     cancelClicked?: () => void;
-    okClicked?: () => void;
+        okClicked?: () => void;
 }
 
-export default function Popup({ title, text, gameControl, okLabel, cancelLabel, backgrounColor, 
+export default function Popup({ title, text, gameControl, okLabel, cancelLabel, backgrounColor,
     okClicked, cancelClicked, closePopup }: TestProps) {
-    
+
     return (
         <Overlay>
             <StyledDiv bgColor={gameControl}>
@@ -89,8 +89,8 @@ export default function Popup({ title, text, gameControl, okLabel, cancelLabel, 
                         </g>
                     </svg>
                 </StyledCloseBtn>
-                {gameControl && <PopupControl okHandle={ okClicked } cancelHandle={cancelClicked} 
-                backgroundColor={backgrounColor || '#70b96a'} okLabel={okLabel} cancelLabel={cancelLabel} />}
+                {gameControl && <PopupControl okHandle={okClicked} cancelHandle={cancelClicked}
+                    backgroundColor={backgrounColor || '#70b96a'} okLabel={okLabel} cancelLabel={cancelLabel} />}
             </StyledDiv>
         </Overlay>
     );
