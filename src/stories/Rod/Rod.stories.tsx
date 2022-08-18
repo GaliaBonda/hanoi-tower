@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Rod from './Rod';
-import { userEvent, within, screen, waitFor } from '@storybook/testing-library';
+import { userEvent, within, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import formStacks from '../../common/utils/formStacks';
 
@@ -9,11 +9,12 @@ export default {
   title: 'Rod',
   component: Rod,
   argTypes: {
-    moveDisc: { action: 'move disc' },
+    moveDisc: { action: 'move disc', table: { disable: true, }, },
+    stack: {table: { disable: true, },},
   },
   decorators: [
     (Story) => (
-      <div data-testid="test-wrapper" style={{ height: '50vh' }}>
+      <div data-testid="test-wrapper" style={{ height: '50vh', position: 'relative' }}>
         <Story />
       </div>
     ),
@@ -56,5 +57,5 @@ IncorrectDiscMove.play = async ({ canvasElement }) => {
 
 };
 
-export const WithPopup = Template.bind({});
-WithPopup.args = { ...Standart.args, warningPopup: true };
+export const WithPopupToggled = Template.bind({});
+WithPopupToggled.args = { ...Standart.args, warningPopup: false };

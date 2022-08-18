@@ -65,7 +65,7 @@ type TestProps = IStack & {
     warningPopup?: boolean; 
 };
 
-function Rod({ stack, id = 1, moveDisc, discsNum, warningPopup }: TestProps) {
+function Rod({ stack, id = 1, moveDisc, discsNum, warningPopup = false }: TestProps) {
 const [popupShown, setPopupShown] = useState(false);
 
     const wrongDiskAlert = () => {
@@ -91,7 +91,7 @@ const [popupShown, setPopupShown] = useState(false);
             closePopup={() => setPopupShown(false)} gameControl={false} okLabel='' cancelLabel='' backgrounColor='#70b96a'/>}
         {warningPopup && 
         <Popup title='Missed!' text="Only the top disc can be moved. It looks like you're trying to ruin the tower..."
-            closePopup={() => setPopupShown(false)} gameControl={false} okLabel='' cancelLabel='' backgrounColor='#70b96a'/>}
+            closePopup={() => setPopupShown(false)} gameControl={false} okLabel='' cancelLabel='' backgrounColor='#70b96a' />}
         </>
     );
 }

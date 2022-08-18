@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Disc from './Disc';
-import { userEvent, within, screen } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 
 
@@ -9,7 +9,8 @@ export default {
   title: 'Disc',
   component: Disc,
   argTypes: {
-    moveDisc: { action: 'move disc' },
+    moveDisc: { action: 'move disc', table: { disable: true, }, },
+  
   },
   decorators: [
     (Story) => (
@@ -29,6 +30,7 @@ Standart.args = {
   stackId: 1,
   discsNum: 3,
   animatedState: false,
+  id: 0,
 };
 
 export const Animated = Template.bind({});

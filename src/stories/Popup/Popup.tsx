@@ -61,7 +61,6 @@ const StyledCloseBtn = styled.button`
     `;
 
 interface TestProps {
-    onClick?: () => void;
     title: string;
     text: string;
     closePopup: () => void;

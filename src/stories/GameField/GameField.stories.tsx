@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import GameField from './GameField';
-import { userEvent, within, screen } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
 
@@ -68,3 +68,46 @@ TopDiscMoved.play = async ({ canvasElement }) => {
   await expect(within(secondRod).queryByTestId('test-disc')).not.toBeNull();
 };
 
+export const BottomDiscMoved = Template.bind({});
+BottomDiscMoved.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const disc = canvas.getAllByTestId('test-disc');
+  const bottomDisc = disc[0];
+  await userEvent.click(bottomDisc);
+  await expect(canvas.getByText('Missed!')).toBeInTheDocument();
+};
+
+export const SecondDiscMoved = Template.bind({});
+SecondDiscMoved.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const disc = canvas.getAllByTestId('test-disc');
+  const secondDisc = disc[1];
+  await userEvent.click(secondDisc);
+  await expect(canvas.getByText('Missed!')).toBeInTheDocument();
+};
+
+export const TwoDiscsOnSecondRod = Template.bind({});
+TwoDiscsOnSecondRod.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  let disc = canvas.getAllByTestId('test-disc');
+  let topDisc = disc[disc.length - 1];
+  await userEvent.click(topDisc);
+
+  const secondRod = canvas.getAllByTestId('test-rod')[1];
+  const xCoord = secondRod.getBoundingClientRect().x;
+  const rodWrapper = canvas.getByTestId('test-stacks-wrapper');
+  await userEvent.click(rodWrapper, { clientX: xCoord });
+
+  const secondDisc = disc[disc.length - 2];
+  await userEvent.click(secondDisc);
+
+  const x1Coord = secondRod.getBoundingClientRect().x + 1.5 * secondRod.getBoundingClientRect().width;
+  await userEvent.click(rodWrapper, { clientX: x1Coord });
+  disc = canvas.getAllByTestId('test-disc');
+  topDisc = disc[1];
+  await userEvent.click(topDisc);
+  await userEvent.click(rodWrapper, { clientX: x1Coord });
+  await expect(within(secondRod).queryByTestId('test-disc')).toBeNull();
+  const thirdRod = canvas.getAllByTestId('test-rod')[2];
+  await expect(within(thirdRod).queryAllByTestId('test-disc').length).toEqual(2);
+};

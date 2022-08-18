@@ -8,9 +8,10 @@ export default {
     title: 'Popup',
     component: Popup,
     argTypes: {
-       closePopup: { action: 'popup closed' },
-       okClicked: { action: 'ok clicked' },
-       cancelClicked: { action: 'cancel clicked' },
+       closePopup: { action: 'popup closed', table: { disable: true, },  },
+       okClicked: { action: 'ok clicked', table: { disable: true, },  },
+       cancelClicked: { action: 'cancel clicked', table: { disable: true, },  },
+       okHandle: {table: { disable: true, }, },
     }
   } as ComponentMeta<typeof Popup>;
 

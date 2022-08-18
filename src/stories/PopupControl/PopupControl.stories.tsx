@@ -8,8 +8,8 @@ export default {
   title: 'PopupControl',
   component: PopupControl,
   argTypes: {
-    cancelHandle: { action: 'cancel clicked' },
-    okHandle: { action: 'ok clicked' },
+    cancelHandle: { action: 'cancel clicked', table: { disable: true, },  },
+    okHandle: { action: 'ok clicked', table: { disable: true, },  },
   },
 
 } as ComponentMeta<typeof PopupControl>;
@@ -20,6 +20,7 @@ export const Standart = Template.bind({});
 Standart.args = {
   okLabel: 'Ok, let\'s go',
   cancelLabel: 'Not interested',
+  backgroundColor: '#70b96a',
 }; 
 
 export const OkClicked = Template.bind({});

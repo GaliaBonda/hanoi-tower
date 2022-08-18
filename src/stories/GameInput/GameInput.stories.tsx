@@ -15,8 +15,8 @@ export default {
         ),
       ],
       argTypes: {
-        handleChange: { action: 'input changed' },
-        formStacks: { action: 'stacks formed' },
+        handleChange: { action: 'input changed', table: { disable: true, },  },
+        formStacks: { action: 'stacks formed', table: { disable: true, },  },
      }
 } as ComponentMeta<typeof GameInput>;
 
@@ -27,8 +27,8 @@ Standart.args = {
     value: 3,
 };
 
-export const WithPopup = Template.bind({});
-WithPopup.args = {...Standart.args, shownPopup : true,}
+export const WithPopupToggled = Template.bind({});
+WithPopupToggled.args = {...Standart.args, shownPopup : false,}
 
 export const FilledInput = Template.bind({});
 let inputVal;
