@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { userEvent, within, screen } from '@storybook/testing-library';
+import { userEvent, within, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import GameInput from './GameInput';
 
@@ -33,10 +33,11 @@ WithPopup.args = {...Standart.args, shownPopup : true,}
 export const FilledInput = Template.bind({});
 let inputVal;
 FilledInput.args = {
-    ...Standart.args,
+    ...Standart.args, handleChange: (value: string) => inputVal = value, value: inputVal,
 };
-FilledInput.play = async () => {
-    const input = screen.getByTestId('test-input');
+FilledInput.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByTestId('test-input');
     await userEvent.type(input, '4', {
     });
 };
@@ -46,9 +47,9 @@ FilledInputNan.args = {
     ...Standart.args,
 };
 FilledInputNan.play = async ({ canvasElement }) => {
-    const input = screen.getByTestId('test-input');
-    await userEvent.type(input, 'h');
     const canvas = within(canvasElement);
+    const input = canvas.getByTestId('test-input');
+    await userEvent.type(input, 'h');
     await expect(canvas.getByText('Invalid discs amount!')).toBeInTheDocument();
 };
 
@@ -58,9 +59,9 @@ FilledInputTooBig.args = {
 };
 
 FilledInputTooBig.play = async ({ canvasElement }) => {
-    const input = screen.getByTestId('test-input');
-    await userEvent.type(input, '11');
     const canvas = within(canvasElement);
+    const input = canvas.getByTestId('test-input');
+    await userEvent.type(input, '11');
     await expect(canvas.getByText('Invalid discs amount!')).toBeInTheDocument();
 };
 
@@ -69,8 +70,10 @@ StartBtnClicked.args = {
     ...Standart.args,
 };
 
-StartBtnClicked.play = async () => {
-    const startBtn = screen.getByRole('button', {name: 'Start'});
+StartBtnClicked.play = async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const startBtn = canvas.getByRole('button', {name: 'Start'});
     await userEvent.click(startBtn);
+    await waitFor(() => expect(args.formStacks).toBeCalled);
 };
 

@@ -35,8 +35,9 @@ export const Animated = Template.bind({});
 Animated.args = {
   ...Standart.args
 };
-Animated.play = async () => {
-  const disc = screen.getByTestId('test-disc');
+Animated.play = async ({canvasElement}) => {
+  const canvas = within(canvasElement);
+  const disc = canvas.getByTestId('test-disc');
   await userEvent.click(disc);
 
 };
@@ -50,10 +51,10 @@ StopAnimated.args = {
   ...Standart.args
 };
 StopAnimated.play = async ({ canvasElement }) => {
-  const disc = screen.getByTestId('test-disc');
+  const canvas = within(canvasElement);
+  const disc = canvas.getByTestId('test-disc');
   await userEvent.click(disc);
   await sleep(2000);
-  const canvas = within(canvasElement);
   await userEvent.click(canvas.getByTestId('test-wrapper'));
 
 };

@@ -7,17 +7,17 @@ import { expect } from '@storybook/jest';
 
 
 export default {
-    title: 'GameField',
-    component: GameField,
-    decorators: [
-        (Story) => (
-          <div data-testid="test-wrapper" style={{width: '100%'}}>
-            <Story />
-          </div>
-        ),
-      ],
+  title: 'GameField',
+  component: GameField,
+  decorators: [
+    (Story) => (
+      <div data-testid="test-wrapper" style={{ width: '100%' }}>
+        <Story />
+      </div>
+    ),
+  ],
 } as ComponentMeta<typeof GameField>;
-const Template: ComponentStory<typeof GameField> = () => <GameField  />;
+const Template: ComponentStory<typeof GameField> = () => <GameField />;
 
 export const Standart = Template.bind({});
 Standart.args = {
@@ -25,44 +25,46 @@ Standart.args = {
 
 export const FiveDiscsGame = Template.bind({});
 
-FiveDiscsGame.play = async () => {
-    const input = screen.getByRole('textbox');
-    await userEvent.type(input, '5');
-    const startButton = screen.getByRole('button', {name: 'Start'});
-    await userEvent.click(startButton);
-    const disc = screen.getAllByTestId('test-disc');
-    await expect(disc.length).toEqual(5);
+FiveDiscsGame.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const input = canvas.getByRole('textbox');
+  await userEvent.type(input, '5');
+  const startButton = canvas.getByRole('button', { name: 'Start' });
+  await userEvent.click(startButton);
+  const disc = canvas.getAllByTestId('test-disc');
+  await expect(disc.length).toEqual(5);
 };
-export const TenDiscsGame = Template.bind({});
 
-TenDiscsGame.play = async () => {
-    const input = screen.getByRole('textbox');
-    await userEvent.type(input, '10');
-    const startButton = screen.getByRole('button', {name: 'Start'});
-    await userEvent.click(startButton);
-    const disc = screen.getAllByTestId('test-disc');
-    await expect(disc.length).toEqual(10);
+export const TenDiscsGame = Template.bind({});
+TenDiscsGame.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const input = canvas.getByRole('textbox');
+  await userEvent.type(input, '10');
+  const startButton = canvas.getByRole('button', { name: 'Start' });
+  await userEvent.click(startButton);
+  const disc = canvas.getAllByTestId('test-disc');
+  await expect(disc.length).toEqual(10);
 };
 
 export const ElevenDiscsGame = Template.bind({});
 
 ElevenDiscsGame.play = async ({ canvasElement }) => {
-    const input = screen.getByRole('textbox');
-    await userEvent.type(input, '11');
-    const canvas = within(canvasElement);
-    await expect(canvas.queryByText('Invalid discs amount!')).toBeInTheDocument();
+  const canvas = within(canvasElement);
+  const input = canvas.getByRole('textbox');
+  await userEvent.type(input, '11');
+  await expect(canvas.queryByText('Invalid discs amount!')).toBeInTheDocument();
 };
 
 export const TopDiscMoved = Template.bind({});
-
-TopDiscMoved.play = async () => {
-    const disc = screen.getAllByTestId('test-disc');
-    const topDisc = disc[disc.length - 1];
-    await userEvent.click(topDisc);
-    const secondRod = screen.getAllByTestId('test-rod')[1];
-    const xCoord = secondRod.getBoundingClientRect().x;
-    const rodWrapper = screen.getByTestId('test-stacks-wrapper');
-    await userEvent.click(rodWrapper, {clientX: xCoord});
-    await expect(within(secondRod).queryByTestId('test-disc')).not.toBeNull();
+TopDiscMoved.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const disc = canvas.getAllByTestId('test-disc');
+  const topDisc = disc[disc.length - 1];
+  await userEvent.click(topDisc);
+  const secondRod = canvas.getAllByTestId('test-rod')[1];
+  const xCoord = secondRod.getBoundingClientRect().x;
+  const rodWrapper = canvas.getByTestId('test-stacks-wrapper');
+  await userEvent.click(rodWrapper, { clientX: xCoord });
+  await expect(within(secondRod).queryByTestId('test-disc')).not.toBeNull();
 };
 

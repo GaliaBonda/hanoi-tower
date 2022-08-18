@@ -1,4 +1,3 @@
-import { action } from '@storybook/addon-actions';
 import React, { ChangeEvent, FocusEvent, useState } from 'react';
 import styled from 'styled-components/macro';
 import Popup from '../Popup/Popup';
@@ -60,8 +59,8 @@ interface TestProps {
     shownPopup?: boolean;
 }
 
-export default function GameInput({ value, handleChange = action('input changed'),
-    formStacks = action('stacks formed'), shownPopup }: TestProps) {
+export default function GameInput({ value, handleChange,
+    formStacks, shownPopup }: TestProps) {
     const [popup, setPopup] = useState(false);
 
     const handleInputChange = (value: string) => {

@@ -1,9 +1,8 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Popup from './Popup';
-import { userEvent, waitFor, screen } from '@storybook/testing-library';
+import { userEvent, waitFor, screen, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
-import { action } from '@storybook/addon-actions';
 
 export default {
     title: 'Popup',
@@ -25,9 +24,6 @@ export default {
     okLabel: 'Ok',
     cancelLabel: 'Cancel',
     backgrounColor: '#70b96a',
-    okClicked: action('ok clicked'),
-    cancelClicked: action('cancel clicked'),
-    closePopup: action('popup closed'),
 }; 
 
 export const CancelClicked = Template.bind({});
@@ -39,14 +35,18 @@ CancelClicked.play = async ({ args }) => {
 
 export const OkClicked = Template.bind({});
 OkClicked.args = {...Standart.args, gameControl: true,};
-OkClicked.play = async ({ args }) => {
-  await userEvent.click(screen.getByRole('button', {name: 'Ok'}));
+OkClicked.play = async ({ canvasElement, args }) => {
+  const canvas = within(canvasElement);
+  const okBtn = canvas.getByRole('button', {name: 'Ok'});
+  await userEvent.click(okBtn);
   await waitFor(() => expect(args.okClicked).toBeCalled);
 };
 
 export const CloseClicked = Template.bind({});
 CloseClicked.args = {...Standart.args, gameControl: true,};
-CloseClicked.play = async ({ args }) => {
-  await userEvent.click(screen.getByTestId('test-close-bnt'));
+CloseClicked.play = async ({ canvasElement, args }) => {
+  const canvas = within(canvasElement);
+  const closeBtn = canvas.getByTestId('test-close-bnt');
+  await userEvent.click(closeBtn);
   await waitFor(() => expect(args.closePopup).toBeCalled);
 };
