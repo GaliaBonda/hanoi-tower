@@ -9,7 +9,7 @@ export default {
     component: GameInput,
     decorators: [
         (Story) => (
-          <div style={{ maxWidth: '10em' }}>
+          <div style={{ maxWidth: '50em' }}>
             <Story />
           </div>
         ),
@@ -26,6 +26,9 @@ export const Standart = Template.bind({});
 Standart.args = {
     value: 3,
 };
+
+export const WithPopup = Template.bind({});
+WithPopup.args = {...Standart.args, shownPopup : true,}
 
 export const FilledInput = Template.bind({});
 let inputVal;

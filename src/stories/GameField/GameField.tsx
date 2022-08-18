@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 
 import IStacks from '../../common/interfaces/IStacks';
 import defineFinishStack from '../../common/utils/defineFinishStack';
+import formStacks from '../../common/utils/formStacks';
 import Stack from '../../common/utils/Stack';
 import GameInput from '../GameInput/GameInput';
 import Popup from '../Popup/Popup';
@@ -110,27 +111,27 @@ function GameField() {
         setDiscsNum(Number(value));
     }
 
-    const formStacks = () => {
-        const stack1 = { stack: new Stack([]), id: 1, };
-        const stack2 = { stack: new Stack([]), id: 2 };
-        const stack3 = { stack: new Stack([]), id: 3 };
-        for (let i = 0; i < discsNumber; i++) {
-            stack1.stack.push({
-                width: discsNumber - i,
-                color: `hsla(${Math.random() * 360}, 100%, 50%)`,
-                height: `calc(60% / ${discsNumber})`,
-                id: i,
-            });
-        }
-        setStacks({
-            stack1,
-            stack2,
-            stack3,
-        });
-    }
+    // const formStacks = () => {
+    //     const stack1 = { stack: new Stack([]), id: 1, };
+    //     const stack2 = { stack: new Stack([]), id: 2 };
+    //     const stack3 = { stack: new Stack([]), id: 3 };
+    //     for (let i = 0; i < discsNumber; i++) {
+    //         stack1.stack.push({
+    //             width: discsNumber - i,
+    //             color: `hsla(${Math.random() * 360}, 100%, 50%)`,
+    //             height: `calc(60% / ${discsNumber})`,
+    //             id: i,
+    //         });
+    //     }
+    //     setStacks({
+    //         stack1,
+    //         stack2,
+    //         stack3,
+    //     });
+    // }
 
     const startNewGame = () => {
-        formStacks();
+        setStacks(formStacks(discsNumber));
         setWinPopup(false);
     }
 
@@ -139,7 +140,7 @@ function GameField() {
     return (
         <>
             <StyledDiv >
-                <GameInput value={discsNumber} handleChange={handleChange} formStacks={formStacks} />
+                <GameInput value={discsNumber} handleChange={handleChange} formStacks={() => setStacks(formStacks(discsNumber))} />
                 <StacksWrapper data-testid='test-stacks-wrapper' ref={rodsWrapperRef} onClick={handleClick}>
                     {Object.values(stacks).map((item) => {
                         return (<Rod stack={item.stack} moveDisc={moveDisc} id={item.id} key={item.id}

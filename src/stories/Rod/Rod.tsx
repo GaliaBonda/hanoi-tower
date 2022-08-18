@@ -59,12 +59,13 @@ const DiscsWrapper = styled.div`
         left: 0;
         padding: 2em 1em;`;
 
-type Props = IStack & { 
+type TestProps = IStack & { 
     moveDisc: (target: EventTarget, stackId: number) => void; 
-    discsNum: number; 
+    discsNum: number;
+    warningPopup?: boolean; 
 };
 
-function Rod({ stack, id = 1, moveDisc, discsNum }: Props) {
+function Rod({ stack, id = 1, moveDisc, discsNum, warningPopup }: TestProps) {
 const [popupShown, setPopupShown] = useState(false);
 
     const wrongDiskAlert = () => {
@@ -86,6 +87,9 @@ const [popupShown, setPopupShown] = useState(false);
             </DiscsWrapper>
         </WrapperDiv>
         {popupShown && 
+        <Popup title='Missed!' text="Only the top disc can be moved. It looks like you're trying to ruin the tower..."
+            closePopup={() => setPopupShown(false)} gameControl={false} okLabel='' cancelLabel='' backgrounColor='#70b96a'/>}
+        {warningPopup && 
         <Popup title='Missed!' text="Only the top disc can be moved. It looks like you're trying to ruin the tower..."
             closePopup={() => setPopupShown(false)} gameControl={false} okLabel='' cancelLabel='' backgrounColor='#70b96a'/>}
         </>

@@ -16,6 +16,10 @@ const StyledInput = styled.input`
         outline: none;
         border: 2px solid rgba(50, 50, 93, 0.25);
     }
+    &:focus {
+        border: none;
+        outline: none;
+    }
     `;
 
 const StyledLabel = styled.label`
@@ -53,10 +57,13 @@ interface TestProps {
     value: number;
     handleChange: (value: string) => void;
     formStacks: () => void;
+    shownPopup?: boolean;
 }
 
-export default function GameInput({ value, handleChange = action('input changed'), formStacks = action('stacks formed') }: TestProps) {
+export default function GameInput({ value, handleChange = action('input changed'),
+    formStacks = action('stacks formed'), shownPopup }: TestProps) {
     const [popup, setPopup] = useState(false);
+
     const handleInputChange = (value: string) => {
         const numberValue = Number(value);
         if (!numberValue || numberValue < 0 || numberValue > 10) {
@@ -72,13 +79,13 @@ export default function GameInput({ value, handleChange = action('input changed'
                 <StyledLabel>
                     How many discs?
                     <StyledInput placeholder='3' value={value} onFocus={(event: FocusEvent<HTMLInputElement>) => event.target.select()}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => { handleInputChange(event.target.value) }} 
-                        data-testid="test-input"/>
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => { handleInputChange(event.target.value) }}
+                        data-testid="test-input" />
                 </StyledLabel>
                 <StyledButton onClick={formStacks}>Start</StyledButton>
             </ControlDiv>
-            {popup && <Popup title='Invalid discs amount!' text='Please, enter only positive numerical values from 1 to 10. Or make you`re own game'
-            closePopup={() => setPopup(false)} gameControl={false} okLabel='Ok' cancelLabel='Cancel' />}
+            {(popup || shownPopup) && <Popup title='Invalid discs amount!' text='Please, enter only positive numerical values from 1 to 10. Or make you`re own game'
+                closePopup={() => setPopup(false)} gameControl={false} okLabel='Ok' cancelLabel='Cancel' />}
         </>
 
     );

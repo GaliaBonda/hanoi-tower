@@ -9,9 +9,9 @@ export default {
     title: 'Popup',
     component: Popup,
     argTypes: {
-      //  closePopup: { action: 'popup closed' },
-      //  okClicked: { action: 'ok clicked' },
-      //  cancelClicked: { action: 'cancel clicked' },
+       closePopup: { action: 'popup closed' },
+       okClicked: { action: 'ok clicked' },
+       cancelClicked: { action: 'cancel clicked' },
     }
   } as ComponentMeta<typeof Popup>;
 

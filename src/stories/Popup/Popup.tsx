@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import PopupControl from '../PopupControl/PopupControl';
-import { action } from '@storybook/addon-actions';
-import { OkClicked } from './Popup.stories';
 
 interface StyleProps {
     bgColor?: boolean;

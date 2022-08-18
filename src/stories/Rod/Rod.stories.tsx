@@ -5,9 +5,7 @@ import { userEvent, within, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import Stack from '../../common/utils/Stack';
 import { action } from '@storybook/addon-actions';
-import * as PopupStories from '../Popup/Popup.stories';
-
-
+import formStacks from '../../common/utils/formStacks';
 
 export default {
     title: 'Rod',
@@ -28,26 +26,15 @@ const Template: ComponentStory<typeof Rod> = (args) => <Rod {...args} />;
 export const Standart = Template.bind({});
 Standart.args = {
     discsNum: 3,
-    stack: new Stack([{
-        width: 3,
-        color: `hsla(${Math.random() * 360}, 100%, 50%)`,
-        height: `calc(60% / 3)`,
-        id: 0,
-      },
-      {
-        width: 2,
-        color: `hsla(${Math.random() * 360}, 100%, 50%)`,
-        height: `calc(60% / 3)`,
-        id: 1,
-      },
-      {
-        width: 1,
-        color: `hsla(${Math.random() * 360}, 100%, 50%)`,
-        height: `calc(60% / 3)`,
-        id: 2,
-      }]), 
+    stack: formStacks(3).stack1.stack, 
       moveDisc: action('move disc'),
 };
+
+export const FiveDiscsRod = Template.bind({});
+FiveDiscsRod.args = {
+  discsNum: 5,
+  stack: formStacks(5).stack1.stack,
+}
 
 export const CorrectDiscMove = Template.bind({});
 CorrectDiscMove.args = {
@@ -71,3 +58,6 @@ IncorrectDiscMove.play = async ({ canvasElement }) => {
     await expect(canvas.queryByText('Missed!')).toBeInTheDocument();
 
 };
+
+export const WithPopup = Template.bind({});
+WithPopup.args = {...Standart.args, warningPopup: true};

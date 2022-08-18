@@ -9,7 +9,6 @@ export default {
   title: 'Disc',
   component: Disc,
   argTypes: {
-    
     moveDisc: { action: 'move disc' },
   },
   decorators: [

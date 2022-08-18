@@ -1,7 +1,7 @@
-import { action } from '@storybook/addon-actions';
 import React, { MouseEvent, useState } from 'react';
 import styled, { Keyframes, keyframes } from 'styled-components/macro';
 import IDisc from '../../common/interfaces/IDisc';
+import { action } from '@storybook/addon-actions';
 
 interface StyleProps {
     width: number;
@@ -57,7 +57,7 @@ export default function Disc({ width, height, color, stackId, discsNum, moveDisc
 
     return (
         <StyledDiv width={width} height={height} color={color} onClick={(event: MouseEvent) => { handleClick(event) }} 
-        animation={(animatedDisc || animatedState) ? discAnimation : ""} discsNum={discsNum} onBlur={() => setAnimatedDisk(false)} tabIndex={0}
-        data-testid="test-disc"/>
+        animation={(animatedDisc || animatedState) ? discAnimation : ""} discsNum={discsNum} onBlur={() => setAnimatedDisk(false)} 
+        tabIndex={0} data-testid="test-disc"/>
     );
 }
