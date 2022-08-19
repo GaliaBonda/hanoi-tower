@@ -73,9 +73,7 @@ function GameField() {
   const rodsWrapperRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (event: MouseEvent) => {
-    if (!targetDisc) {
-      return;
-    }
+    if (!targetDisc) return;
     if (!rodsWrapperRef.current) return;
     if (stacks['stack' + targetStack].stack.size() === 0) return;
 

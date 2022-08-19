@@ -1,8 +1,17 @@
 import React from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  within,
+} from '@testing-library/react';
 import App from './App';
 import GameInput from './components/GameInput/GameInput';
 import Popup from './components/Popup/Popup';
+import Disc from './components/Disc/Disc';
+
+afterEach(cleanup);
 
 test('check for start button', () => {
   render(<App />);
@@ -118,7 +127,7 @@ test('animation launch and stop', () => {
   expect(topDisc).toHaveStyle('animation: 1s linear infinite;');
 });
 
-test('win game, win popup', async () => {
+test('win game, win popup', () => {
   render(<App />);
   const input = screen.getByLabelText('How many discs?');
   fireEvent.change(input, { target: { value: '1' } });
@@ -131,4 +140,22 @@ test('win game, win popup', async () => {
   fireEvent.click(rodsWrapper, { clientX: window.innerWidth / 2 });
   expect(within(secondRod).queryByTestId('test-disc')).not.toBeNull();
   expect(screen.queryByText('Congratulations!!!')).not.toBeNull();
+});
+
+test('responsive width of discs and rods', () => {
+  render(<App />);
+  const input = screen.getByLabelText('How many discs?');
+  const disc = screen.getAllByTestId('test-disc')[1];
+  const startDiscWidth = getComputedStyle(disc).getPropertyValue('width');
+  const rod = screen.getAllByTestId('test-inner-rod')[0];
+  const startRodWidth = getComputedStyle(rod).getPropertyValue('width');
+  fireEvent.change(input, { target: { value: '10' } });
+  const startButton = screen.getByText(/Start/i);
+  fireEvent.click(startButton);
+  const newDiscWidth = getComputedStyle(
+    screen.getAllByTestId('test-disc')[1]
+  ).getPropertyValue('width');
+  const newRodWidth = getComputedStyle(rod).getPropertyValue('width');
+  expect(startDiscWidth).not.toEqual(newDiscWidth);
+  expect(startRodWidth).not.toEqual(newRodWidth);
 });

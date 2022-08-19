@@ -4,14 +4,12 @@ import GameField from './GameField';
 import { userEvent, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
-
-
 export default {
   title: 'GameField',
   component: GameField,
   decorators: [
     (Story) => (
-      <div data-testid="test-wrapper" style={{ width: '100%' }}>
+      <div data-testid='test-wrapper' style={{ width: '100%' }}>
         <Story />
       </div>
     ),
@@ -20,8 +18,7 @@ export default {
 const Template: ComponentStory<typeof GameField> = () => <GameField />;
 
 export const Standart = Template.bind({});
-Standart.args = {
-};
+Standart.args = {};
 
 export const FiveDiscsGame = Template.bind({});
 
@@ -101,7 +98,9 @@ TwoDiscsOnSecondRod.play = async ({ canvasElement }) => {
   const secondDisc = disc[disc.length - 2];
   await userEvent.click(secondDisc);
 
-  const x1Coord = secondRod.getBoundingClientRect().x + 1.5 * secondRod.getBoundingClientRect().width;
+  const x1Coord =
+    secondRod.getBoundingClientRect().x +
+    1.5 * secondRod.getBoundingClientRect().width;
   await userEvent.click(rodWrapper, { clientX: x1Coord });
   disc = canvas.getAllByTestId('test-disc');
   topDisc = disc[1];
@@ -109,5 +108,7 @@ TwoDiscsOnSecondRod.play = async ({ canvasElement }) => {
   await userEvent.click(rodWrapper, { clientX: x1Coord });
   await expect(within(secondRod).queryByTestId('test-disc')).toBeNull();
   const thirdRod = canvas.getAllByTestId('test-rod')[2];
-  await expect(within(thirdRod).queryAllByTestId('test-disc').length).toEqual(2);
+  await expect(within(thirdRod).queryAllByTestId('test-disc').length).toEqual(
+    2
+  );
 };

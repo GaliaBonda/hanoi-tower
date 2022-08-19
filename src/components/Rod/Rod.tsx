@@ -91,7 +91,7 @@ function Rod({ stack, id, moveDisc, discsNum }: Props) {
   return (
     <>
       <WrapperDiv data-testid='test-rod'>
-        <StyledDiv discsNum={discsNum} />
+        <StyledDiv discsNum={discsNum} data-testid='test-inner-rod' />
         <DiscsWrapper>
           {stack.getArray().map((item, index) => {
             return (
@@ -115,10 +115,8 @@ function Rod({ stack, id, moveDisc, discsNum }: Props) {
       </WrapperDiv>
       {popupShown && (
         <Popup
-          title={'Missed!'}
-          text={
-            "Only the top disc can be moved. It looks like you're trying to ruin the tower..."
-          }
+          title='Missed!'
+          text="Only the top disc can be moved. It looks like you're trying to ruin the tower..."
           closePopup={() => setPopupShown(false)}
           gameControl={false}
         />
