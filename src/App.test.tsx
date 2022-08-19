@@ -1,14 +1,9 @@
 import React from 'react';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import App from './App';
-import userEvent from '@testing-library/user-event';
 import GameInput from './components/GameInput/GameInput';
+import Popup from './components/Popup/Popup';
+import { debug } from 'console';
 
 test('check for start button', () => {
   render(<App />);
@@ -39,11 +34,11 @@ test('incorrect discs number, popup check', () => {
   const { input } = setup();
   fireEvent.change(input, { target: { value: '11' } });
   expect((input as HTMLInputElement).value).not.toBe('11');
-  expect(screen.getByText('Invalid discs amount!')).toBeInTheDocument;
+  expect(screen.getByText('Invalid discs amount!')).toBeInTheDocument();
 
   fireEvent.change(input, { target: { value: 'aaa' } });
   expect((input as HTMLInputElement).value).not.toBe('aaa');
-  expect(screen.getByText('Invalid discs amount!')).toBeInTheDocument;
+  expect(screen.getByText('Invalid discs amount!')).toBeInTheDocument();
 });
 
 test('top disc moved', () => {
@@ -53,23 +48,89 @@ test('top disc moved', () => {
   expect(screen.queryByTestId('Missed!')).toBeNull;
   const rodsWrapper = screen.getByTestId('test-rods-wrapper');
   const secondRod = screen.getAllByTestId('test-rod')[1];
-  const xCoord = secondRod.getBoundingClientRect().x;
-  fireEvent.click(rodsWrapper, { clientX: xCoord });
-  expect(within(secondRod).queryByTestId('test-disc')).toBe;
+
+  fireEvent.click(rodsWrapper, { clientX: window.innerWidth / 2 });
+  expect(within(secondRod).findByTestId('test-disc')).not.toBeNull();
+  screen.debug();
 });
 
 test("bottom disc doesn't move", () => {
   render(<App />);
   const discs = screen.getAllByTestId('test-disc');
   fireEvent.click(discs[0]);
-  expect(screen.queryByTestId('Missed!')).toBeInTheDocument;
+  expect(screen.queryByText('Missed!')).toBeInTheDocument();
 });
 
-test('change callback handler', async () => {
+test('bigger disc placed on smaller disc', () => {
+  render(<App />);
+  const discs = screen.getAllByTestId('test-disc');
+  fireEvent.click(discs[discs.length - 1]);
+  const rodsWrapper = screen.getByTestId('test-rods-wrapper');
+  fireEvent.click(rodsWrapper, { clientX: window.innerWidth / 2 });
+  fireEvent.click(discs[1]);
+  fireEvent.click(rodsWrapper, { clientX: window.innerWidth / 2 });
+  expect(screen.queryByText('Too big!')).not.toBeNull();
+});
+
+test('gameinput callbacks', async () => {
   const onChange = jest.fn();
-  render(<GameInput value={0} handleChange={onChange} formStacks={() => {}} />);
+  const formStacksCallback = jest.fn();
+  render(
+    <GameInput
+      value={0}
+      handleChange={onChange}
+      formStacks={formStacksCallback}
+    />
+  );
   fireEvent.change(screen.getByRole('textbox'), {
     target: { value: '10' },
   });
+  fireEvent.click(screen.getByText('Start'));
   expect(onChange).toHaveBeenCalledTimes(1);
+  expect(formStacksCallback).toHaveBeenCalledTimes(1);
+});
+
+test('popup closing/controlling', async () => {
+  const onCloseClick = jest.fn();
+  const onOkClick = jest.fn();
+  render(
+    <Popup
+      title='Test popup'
+      text='Testing popup'
+      closePopup={onCloseClick}
+      gameControl={true}
+      okHandle={onOkClick}
+    />
+  );
+  fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Not interested' }));
+  expect(onCloseClick).toHaveBeenCalledTimes(2);
+  fireEvent.click(screen.getByRole('button', { name: "Ok, let's go" }));
+  expect(onOkClick).toHaveBeenCalledTimes(1);
+});
+
+test('animation launch and stop', () => {
+  render(<App />);
+  const topDisc = screen.getAllByTestId('test-disc')[0];
+  fireEvent.click(topDisc);
+  expect(topDisc).not.toHaveStyle('animation: 1s linear infinite;');
+  const rodsWrapper = screen.getByTestId('test-rods-wrapper');
+  fireEvent.click(rodsWrapper);
+  expect(topDisc).toHaveStyle('animation: 1s linear infinite;');
+});
+
+test('win game, win popup', async () => {
+  render(<App />);
+  const input = screen.getByLabelText('How many discs?');
+  fireEvent.change(input, { target: { value: '1' } });
+  const startButton = screen.getByText(/Start/i);
+  fireEvent.click(startButton);
+  const disc = screen.getByTestId('test-disc');
+  fireEvent.click(disc);
+  const rodsWrapper = screen.getByTestId('test-rods-wrapper');
+  const secondRod = screen.getAllByTestId('test-rod')[2];
+  const xCoord = secondRod.getBoundingClientRect().x;
+  fireEvent.click(rodsWrapper, { clientX: 100 });
+  expect(within(secondRod).queryByTestId('test-disc')).not.toBeNull();
+  expect(screen.queryByText('Congratulations!!!')).not.toBeNull();
 });

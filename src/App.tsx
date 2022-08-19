@@ -38,14 +38,10 @@ const Wrapper = styled.div`
 `;
 
 function App() {
-  const onClick = () => {
-    console.log('test');
-  };
   return (
     <Wrapper>
       <GlobalStyle />
       <GameField />
-      <button onClick={onClick}>Test</button>
     </Wrapper>
   );
 }

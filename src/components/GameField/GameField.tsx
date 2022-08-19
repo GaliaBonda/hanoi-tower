@@ -169,7 +169,7 @@ function GameField() {
       )}
       {winPopup && (
         <Popup
-          title='Congratulations!!!&#127881;'
+          title='Congratulations!!!'
           text="Who's the winner? You are the winner! Would you dare to take another round?"
           closePopup={() => setWinPopup(false)}
           gameControl={true}
