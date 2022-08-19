@@ -8,37 +8,36 @@ export default {
   title: 'PopupControl',
   component: PopupControl,
   argTypes: {
-    cancelHandle: { action: 'cancel clicked', table: { disable: true, },  },
-    okHandle: { action: 'ok clicked', table: { disable: true, },  },
+    cancelHandle: { action: 'cancel clicked', table: { disable: true } },
+    okHandle: { action: 'ok clicked', table: { disable: true } },
   },
-
 } as ComponentMeta<typeof PopupControl>;
 
-const Template: ComponentStory<typeof PopupControl> = (args) => <PopupControl {...args} />;
-
+const Template: ComponentStory<typeof PopupControl> = (args) => (
+  <PopupControl {...args} />
+);
 export const Standart = Template.bind({});
 Standart.args = {
-  okLabel: 'Ok, let\'s go',
+  okLabel: "Ok, let's go",
   cancelLabel: 'Not interested',
   backgroundColor: '#70b96a',
-}; 
+};
 
 export const OkClicked = Template.bind({});
-OkClicked.args = {...Standart.args};
+OkClicked.args = { ...Standart.args };
 
-OkClicked.play = async ({ args,canvasElement }) => {
+OkClicked.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
-  const OkBtn = canvas.getByRole('button', {name: "Ok, let's go"});
-    await userEvent.click(OkBtn);
-    await waitFor(() => expect(args.okHandle).toBeCalled);
+  const OkBtn = canvas.getByRole('button', { name: "Ok, let's go" });
+  await userEvent.click(OkBtn);
+  await waitFor(() => expect(args.okHandle).toBeCalled);
 };
 export const CancelClicked = Template.bind({});
-CancelClicked.args = {...Standart.args};
+CancelClicked.args = { ...Standart.args };
 
-CancelClicked.play = async ({ args,canvasElement }) => {
+CancelClicked.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
-  const OkBtn = canvas.getByRole('button', {name: "Not interested"});
-    await userEvent.click(OkBtn);
-    await waitFor(() => expect(args.cancelHandle).toBeCalled);
+  const OkBtn = canvas.getByRole('button', { name: 'Not interested' });
+  await userEvent.click(OkBtn);
+  await waitFor(() => expect(args.cancelHandle).toBeCalled);
 };
-
