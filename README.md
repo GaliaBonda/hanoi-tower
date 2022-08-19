@@ -8,24 +8,24 @@ output: result of move:
 
 Procedure
 
-move(startStack, finishStack) {
+    move(startStack, finishStack) {
 
-disc = startStack.pop();
+    disc = startStack.pop();
 
-if (!disc) return false;
+    if (!disc) return false;
 
-topElement = finishStack.peek();
+    topElement = finishStack.peek();
 
-if (finishStack is empty || topElement > disc) {
+    if (finishStack is empty || topElement > disc) {
 
-    finishStack.push(disc);
+        finishStack.push(disc);
 
-    if (finishStack.length === N) congrats;
+        if (finishStack.length === N) congrats;
 
-    return true;
+        return true;
 
-    }
+        }
 
-    return false;
+        return false;
 
 }
