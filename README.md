@@ -9,23 +9,13 @@ output: result of move:
 Procedure
 
     move(startStack, finishStack) {
-
     disc = startStack.pop();
-
     if (!disc) return false;
-
     topElement = finishStack.peek();
-
     if (finishStack is empty || topElement > disc) {
-
         finishStack.push(disc);
-
         if (finishStack.length === N) congrats;
-
         return true;
-
         }
-
         return false;
-
-}
+    }
