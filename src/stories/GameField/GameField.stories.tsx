@@ -94,7 +94,6 @@ TwoDiscsOnSecondRod.play = async ({ canvasElement }) => {
   const xCoord = secondRod.getBoundingClientRect().x;
   const rodWrapper = canvas.getByTestId('test-stacks-wrapper');
   await userEvent.click(rodWrapper, { clientX: xCoord });
-
   const secondDisc = disc[disc.length - 2];
   await userEvent.click(secondDisc);
 

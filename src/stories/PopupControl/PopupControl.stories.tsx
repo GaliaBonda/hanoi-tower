@@ -30,7 +30,7 @@ OkClicked.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
   const OkBtn = canvas.getByRole('button', { name: "Ok, let's go" });
   await userEvent.click(OkBtn);
-  await waitFor(() => expect(args.okHandle).toBeCalled);
+  await waitFor(() => expect(args.okHandle).toBeCalled());
 };
 export const CancelClicked = Template.bind({});
 CancelClicked.args = { ...Standart.args };
@@ -39,5 +39,5 @@ CancelClicked.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
   const OkBtn = canvas.getByRole('button', { name: 'Not interested' });
   await userEvent.click(OkBtn);
-  await waitFor(() => expect(args.cancelHandle).toBeCalled);
+  await waitFor(() => expect(args.cancelHandle).toBeCalled());
 };

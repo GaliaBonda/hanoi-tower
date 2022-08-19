@@ -42,7 +42,6 @@ test('incorrect discs number, popup check', () => {
   fireEvent.change(input, { target: { value: '11' } });
   expect((input as HTMLInputElement).value).not.toBe('11');
   expect(screen.getByText('Invalid discs amount!')).toBeInTheDocument();
-
   fireEvent.change(input, { target: { value: 'aaa' } });
   expect((input as HTMLInputElement).value).not.toBe('aaa');
   expect(screen.getByText('Invalid discs amount!')).toBeInTheDocument();
@@ -55,10 +54,8 @@ test('top disc moved', () => {
   expect(screen.queryByTestId('Missed!')).toBeNull;
   const rodsWrapper = screen.getByTestId('test-rods-wrapper');
   const secondRod = screen.getAllByTestId('test-rod')[1];
-
   fireEvent.click(rodsWrapper, { clientX: window.innerWidth / 2 });
   expect(within(secondRod).findByTestId('test-disc')).not.toBeNull();
-  screen.debug();
 });
 
 test("bottom disc doesn't move", () => {

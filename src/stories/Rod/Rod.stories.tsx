@@ -46,7 +46,7 @@ CorrectDiscMove.play = async ({ args, canvasElement }) => {
   const disc = canvas.getAllByTestId('test-disc');
   await userEvent.click(disc[disc.length - 1]);
   await expect(canvas.queryByText('Missed!')).toBeNull();
-  await waitFor(() => expect(args.moveDisc).toBeCalled);
+  await waitFor(() => expect(args.moveDisc).toBeCalled());
 };
 export const IncorrectDiscMove = Template.bind({});
 IncorrectDiscMove.args = {
