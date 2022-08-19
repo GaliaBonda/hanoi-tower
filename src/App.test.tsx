@@ -9,7 +9,6 @@ import {
 import App from './App';
 import GameInput from './components/GameInput/GameInput';
 import Popup from './components/Popup/Popup';
-import Disc from './components/Disc/Disc';
 
 afterEach(cleanup);
 
