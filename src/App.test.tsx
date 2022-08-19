@@ -3,7 +3,6 @@ import { fireEvent, render, screen, within } from '@testing-library/react';
 import App from './App';
 import GameInput from './components/GameInput/GameInput';
 import Popup from './components/Popup/Popup';
-import { debug } from 'console';
 
 test('check for start button', () => {
   render(<App />);
@@ -129,8 +128,7 @@ test('win game, win popup', async () => {
   fireEvent.click(disc);
   const rodsWrapper = screen.getByTestId('test-rods-wrapper');
   const secondRod = screen.getAllByTestId('test-rod')[2];
-  const xCoord = secondRod.getBoundingClientRect().x;
-  fireEvent.click(rodsWrapper, { clientX: 100 });
+  fireEvent.click(rodsWrapper, { clientX: window.innerWidth / 2 });
   expect(within(secondRod).queryByTestId('test-disc')).not.toBeNull();
   expect(screen.queryByText('Congratulations!!!')).not.toBeNull();
 });
