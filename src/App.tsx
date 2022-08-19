@@ -25,22 +25,27 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
-`
+`;
 
 const Wrapper = styled.div`
-position: relative;
-height: 100vh;
-width: 100%;
-background-color: #c8edd7;
-display: flex;
-justify-content: center;
-align-items: center;`;
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background-color: #c8edd7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 function App() {
+  const onClick = () => {
+    console.log('test');
+  };
   return (
     <Wrapper>
       <GlobalStyle />
       <GameField />
+      <button onClick={onClick}>Test</button>
     </Wrapper>
   );
 }

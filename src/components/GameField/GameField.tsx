@@ -21,14 +21,13 @@ const StyledDiv = styled.div`
   gap: 7em;
 `;
 const StacksWrapper = styled.div`
-  display: flex; 
+  display: flex;
   justify-content: space-around;
   align-items: flex-end;
   width: 100%;
   height: 60%;
   padding: 2em;
 `;
-
 
 function GameField() {
   const [discsNumber, setDiscsNum] = useState(3);
@@ -57,7 +56,7 @@ function GameField() {
       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
       height: `calc(60% / ${discsNumber})`,
       id: 2,
-    }
+    },
   ]);
 
   const [stacks, setStacks] = useState<IStacks>({
@@ -78,12 +77,17 @@ function GameField() {
       return;
     }
     if (!rodsWrapperRef.current) return;
-    if (stacks["stack" + targetStack].stack.size() === 0) return;
-    
-    const moveTarget = stacks["stack" + targetStack].stack.peek();
+    if (stacks['stack' + targetStack].stack.size() === 0) return;
 
-    const finishStack = defineFinishStack(stacks, targetStack, rodsWrapperRef.current.offsetLeft,
-      rodsWrapperRef.current.offsetWidth, event.clientX);
+    const moveTarget = stacks['stack' + targetStack].stack.peek();
+
+    const finishStack = defineFinishStack(
+      stacks,
+      targetStack,
+      rodsWrapperRef.current.offsetLeft,
+      rodsWrapperRef.current.offsetWidth,
+      event.clientX
+    );
 
     const topElement = finishStack.stack.peek();
     if (finishStack.stack.size() > 0 && moveTarget.width > topElement.width) {
@@ -95,9 +99,12 @@ function GameField() {
       });
       return;
     }
-    const moveTargetDisc = stacks["stack" + targetStack].stack.pop();
+    const moveTargetDisc = stacks['stack' + targetStack].stack.pop();
     if (moveTargetDisc) finishStack.stack.push(moveTargetDisc);
-    if (stack2.stack.size() === discsNumber || stack3.stack.size() === discsNumber) {
+    if (
+      stack2.stack.size() === discsNumber ||
+      stack3.stack.size() === discsNumber
+    ) {
       setWinPopup(true);
     }
     setTargetDisc(null);
@@ -110,55 +117,66 @@ function GameField() {
 
   const handleChange = (value: string) => {
     setDiscsNum(Number(value));
-  }
-
-  // const formStacks = () => {
-  //   const stack1 = { stack: new Stack([]), id: 1, };
-  //   const stack2 = { stack: new Stack([]), id: 2 };
-  //   const stack3 = { stack: new Stack([]), id: 3 };
-  //   for (let i = 0; i < discsNumber; i++) {
-  //     stack1.stack.push({
-  //       width: discsNumber - i,
-  //       color: `hsla(${Math.random() * 360}, 100%, 50%)`,
-  //       height: `calc(60% / ${discsNumber})`,
-  //       id: i,
-  //     });
-  //   }
-  //   setStacks({
-  //     stack1,
-  //     stack2,
-  //     stack3,
-  //   });
-  // }
+  };
 
   const startNewGame = () => {
     setStacks(formStacks(discsNumber));
     setWinPopup(false);
-  }
+  };
 
-  const stacksSize = stack1.stack.size() + stack2.stack.size() + stack3.stack.size();
+  const stacksSize =
+    stack1.stack.size() + stack2.stack.size() + stack3.stack.size();
 
   return (
     <>
-      <StyledDiv >
-        <GameInput value={discsNumber} handleChange={handleChange} formStacks={() => setStacks(formStacks(discsNumber))} />
-        <StacksWrapper ref={rodsWrapperRef} onClick={handleClick}>
+      <StyledDiv>
+        <GameInput
+          value={discsNumber}
+          handleChange={handleChange}
+          formStacks={() => setStacks(formStacks(discsNumber))}
+        />
+        <StacksWrapper
+          ref={rodsWrapperRef}
+          onClick={handleClick}
+          data-testid='test-rods-wrapper'
+        >
           {Object.values(stacks).map((item) => {
-            return (<Rod stack={item.stack} moveDisc={moveDisc} id={item.id} key={item.id}
-              discsNum={stacksSize} />);
+            return (
+              <Rod
+                stack={item.stack}
+                moveDisc={moveDisc}
+                id={item.id}
+                key={item.id}
+                discsNum={stacksSize}
+              />
+            );
           })}
         </StacksWrapper>
       </StyledDiv>
-      {popup.isShown && <Popup title={popup.title} text={popup.text}
-        closePopup={() => setPopup({
-          isShown: false,
-          title: '',
-          text: '',
-        })} gameControl={false} />}
-      {winPopup && <Popup title='Congratulations!!!&#127881;' text="Who's the winner? You are the winner! Would you dare to take another round?"
-        closePopup={() => setWinPopup(false)} gameControl={true} okHandle={startNewGame} />}
+      {popup.isShown && (
+        <Popup
+          title={popup.title}
+          text={popup.text}
+          closePopup={() =>
+            setPopup({
+              isShown: false,
+              title: '',
+              text: '',
+            })
+          }
+          gameControl={false}
+        />
+      )}
+      {winPopup && (
+        <Popup
+          title='Congratulations!!!&#127881;'
+          text="Who's the winner? You are the winner! Would you dare to take another round?"
+          closePopup={() => setWinPopup(false)}
+          gameControl={true}
+          okHandle={startNewGame}
+        />
+      )}
     </>
-
   );
 }
 export default GameField;
